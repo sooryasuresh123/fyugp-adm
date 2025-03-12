@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-lg p-4">
+        <h2 class="text-center mb-4">Add Student</h2>
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            <strong>Errors:</strong>
+            <ul>
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <li>{{ field|title }}: {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="row">
+                <!-- Student Personal Details -->
+                <h5 class="fw-bold text-primary">Personal Details</h5>
+                <hr>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Student Name <span class="text-danger">*</span></label>
+                    {{ form.stud_name }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Admission No <span class="text-danger">*</span></label>
+                    {{ form.stud_adm_no }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Roll No</label>
+                    {{ form.stud_roll_no }}
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Aadhaar No <span class="text-danger">*</span></label>
+                    {{ form.aadhaar }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Email <span class="text-danger">*</span></label>
+                    {{ form.email }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Phone <span class="text-danger">*</span></label>
+                    {{ form.phone }}
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Date of Birth <span class="text-danger">*</span></label>
+                    {{ form.dob }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Gender <span class="text-danger">*</span></label>
+                    {{ form.gender }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Blood Group</label>
+                    {{ form.blood_group }}
+                </div>
+
+                <!-- Parent & Contact Details -->
+                <h5 class="fw-bold text-primary mt-4">Parent & Address Details</h5>
+                <hr>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Parent Name <span class="text-danger">*</span></label>
+                    {{ form.parent_name }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Parent Mobile <span class="text-danger">*</span></label>
+                    {{ form.parent_mob }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">House Name</label>
+                    {{ form.house_name }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Post</label>
+                    {{ form.post }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">District</label>
+                    {{ form.district }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">State</label>
+                    {{ form.state }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Pincode</label>
+                    {{ form.pincode }}
+                </div>
+
+                <!-- Education & Admission Details -->
+                <h5 class="fw-bold text-primary mt-4">Educational Details</h5>
+                <hr>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Program <span class="text-danger">*</span></label>
+                    {{ form.program }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Pathway</label>
+                    {{ form.pathway }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Board</label>
+                    {{ form.board }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Normalized Mark</label>
+                    {{ form.normalized_mark }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Year of Admission</label>
+                    {{ form.year_of_admission }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Date of Joining</label>
+                    {{ form.date_of_joining }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Language</label>
+                    {{ form.language }}
+                </div>
+
+
+                <!-- Other Details -->
+                <h5 class="fw-bold text-primary mt-4">Other Details</h5>
+                <hr>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Caste</label>
+                    {{ form.caste }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Religion</label>
+                    {{ form.religion }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Quota</label>
+                    {{ form.quota }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Category</label>
+                    {{ form.category }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Income</label>
+                    {{ form.income }}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">E-Grantz</label>
+                    {{ form.egrantz }}
+                </div>
+
+                <!-- Status -->
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Student Status</label>
+                    {{ form.status }}
+                </div>
+
+                {% comment %} <div class="col-md-4 mb-3">
+                    <label class="form-label">TC No</label>
+                    {{ form.tc_no }}
+                </div> {% endcomment %}
+
+                <div class="col-md-12">
+                    <label class="form-label">Identification Mark</label>
+                    {{ form.identification_mark }}
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-success px-4">Submit</button>
+                <a href="{% url 'manage_student' %}" class="btn btn-danger px-4">Cancel</a>
+            </div>
+
+        </form>
+    </div>
+</div>
+{% endblock %}

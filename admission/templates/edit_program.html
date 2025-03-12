@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center">Edit program</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    {{ form.program_name.label_tag }}
+                    {{ form.program_name }}
+                    <label for="id_program_level">Program Level:</label>
+                    {{form.program_level}}
+                    <label for="id_department">Department:</label>
+                    {{form.department}}
+                </div>
+                <button type="submit" class="btn btn-warning">Update</button>
+                <a href="{% url 'manage_program' %}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %} 

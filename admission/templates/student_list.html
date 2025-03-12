@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mt-4">
+    <h2 class="text-center">Student List</h2>
+
+    <!-- Filter Form -->
+    <form method="GET" class="row g-3">
+        <div class="col-md-4">
+            <label class="form-label fw-bold">Program</label>
+            <select name="program" class="form-control">
+                <option value="">Search By</option>
+                {% for program in programs %}
+                    <option value="{{ program.id }}" {% if request.GET.program == program.id|stringformat:"s" %}selected{% endif %}>
+                        {{ program.program_name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+    
+        <div class="col-md-4">
+            <label class="form-label fw-bold">Admission Number:</label>
+            <select name="stud_adm_no" class="form-control">
+                <option value="">Search By</option>
+                {% for adm_no in admission_numbers %}
+                    <option value="{{ adm_no }}" {% if request.GET.stud_adm_no == adm_no|stringformat:"s" %}selected{% endif %}>
+                        {{ adm_no }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+            <div class="col-md-3">
+                <label>Year of Admission</label>
+                <input type="number" name="year_of_admission" class="form-control" value="{{ request.GET.year_of_admission }}">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fw-bold">TC Status</label>
+                <select name="tc_status" class="form-control">
+                    <option value=""> Select TC Status</option>
+                    <option value="include" {% if request.GET.tc_status == "include" %}selected{% endif %}>Include</option>
+                    <option value="exclude" {% if request.GET.tc_status == "exclude" %}selected{% endif %}>Exclude</option>
+                </select>
+            </div>
+            
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Filter</button>
+    </form>
+
+    <!-- Sorted Student List -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th><a href="?sort_by=stud_adm_no">Admission No</a></th>
+                <th><a href="?sort_by=stud_name">Name</a></th>
+                <th><a href="?sort_by=year_of_admission">Year</a></th>
+                <th><a href="?sort_by=program">Program</a></th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td>{{ student.stud_adm_no }}</td>
+                <td>{{ student.stud_name }}</td>
+                <td>{{ student.year_of_admission }}</td>
+                <td>{{ student.program.program_name }}</td>
+                <td>
+                    <a href="{% url 'student_detail' student.id %}" class="btn btn-info btn-sm">More Details</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center">No students found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

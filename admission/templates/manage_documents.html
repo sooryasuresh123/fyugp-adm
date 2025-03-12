@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Manage Documents</h2>
+<a href="{% url 'upload_document' %}" class="btn btn-primary">Upload New Document</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Student</th>
+            <th>Document Name</th>
+            <th>File</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for document in documents %}
+        <tr>
+            <td>{{ document.student.stud_name }}</td>
+            <td>{{ document.document_name }}</td>
+            <td><a href="{{ document.document_file.url }}" target="_blank">View</a></td>
+            <td>
+                <a href="{% url 'edit_document' document.pk %}" class="btn btn-warning">Edit</a>
+                <a href="{% url 'delete_document' document.pk %}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

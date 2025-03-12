@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center">Manage Departments</h2>
+
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>#</th>
+                <th>Department Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for department in departments %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ department.dept_name }}</td>
+                <td>
+                    <a href="{% url 'edit_department' department.id %}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{% url 'delete_department' department.id %}" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3" class="text-center">No departments available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'add_department' %}" class="btn btn-primary">Add Department</a>
+</div>
+{% endblock %}

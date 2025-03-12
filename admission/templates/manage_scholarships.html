@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Manage Scholarships</h2>
+    <div class="d-flex justify-content-center mt-4">
+        <a href="{% url 'scholarship_details' %}" class="btn btn-primary mx-3">Scholarship Details</a>
+        <a href="{% url 'student_scholarships' %}" class="btn btn-success mx-3">Student Scholarship</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center">Transfer Certificate </h2>
+
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Sl no</th>
+                <th>TC No</th>
+                <th>Student</th>
+                <th>Date of Application</th>
+                <th>Date of Issue</th>
+                <th>Reason</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tc in tc_list %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ tc.tc_no }}</td>
+                <td>{{ tc.stud }}</td>
+                <td>{{ tc.date_of_application }}</td>
+                <td>{{ tc.date_of_issue }}</td>
+                <td>{{ tc.reason }}</td>
+                            
+                <td>
+                    <a href="{% url 'edit_transfer_certificate' tc.id  %}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{% url 'delete_transfer_certificate' tc.id%}" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3" class="text-center">No Tc lists</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'add_transfer_certificate' %}" class="btn btn-primary">Add TC</a>
+</div>
+{% endblock %}
