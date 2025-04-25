@@ -1,6 +1,7 @@
 from django.urls import path,include
 from . import views
 from django.contrib.auth import views as auth_views
+from django.views.generic import TemplateView
 
 
 urlpatterns = [
@@ -29,11 +30,7 @@ urlpatterns = [
     path('students/edit/<int:student_id>/', views.edit_student, name='edit_student'),  # Edit student
     path('students/delete/<int:pk>/', views.delete_student, name='delete_student'),  # Delete student
    
-    path('transfer-certificates/', views.transfer_certificate_list, name='transfer_certificate_list'),
-    path('add-transfer-certificate/', views.add_transfer_certificate, name='add_transfer_certificate'),
-    path('edit-transfer-certificate/<int:tc_id>/', views.edit_transfer_certificate, name='edit_transfer_certificate'),
-    path('delete-transfer-certificate/<int:tc_id>/', views.delete_transfer_certificate, name='delete_transfer_certificate'),
-
+    
 
     path('manage_scholarships/', views.manage_scholarships, name='manage_scholarships'),
     path('scholarship_details/', views.scholarship_details, name='scholarship_details'),
@@ -47,23 +44,31 @@ urlpatterns = [
     path('delete_student_scholarship/<int:student_scholarship_id>/', views.delete_student_scholarship, name='delete_student_scholarship'),
 
 
-    # path('manage_users/', views.manage_users, name='manage_users'),
-    # path('add_user/', views.add_user, name='add_user'),
-    # path('edit_user/<int:user_id>/', views.edit_user, name='edit_user'),
-    # path('delete_user/<int:user_id>/', views.delete_user, name='delete_user'),
-
-
-    # path('qualified_marks/',views. manage_qualified_marks, name='manage_qualified_marks'),
-    # path('qualified_marks/add/',views.add_qualified_mark, name='add_qualified_mark'),
-    # path('qualified_marks/edit/<int:stud_id>/',views.edit_qualified_mark, name='edit_qualified_mark'),
-    # path('qualified_marks/delete/<int:stud_id>/',views.delete_qualified_mark, name='delete_qualified_mark'),
     path('manage_documents/', views.manage_documents, name='manage_documents'),
     path('documents/upload/', views.upload_document, name='upload_document'),
     path('documents/edit/<int:pk>/', views.edit_document, name='edit_document'),
     path('documents/delete/<int:pk>/', views.delete_document, name='delete_document'),
 
     path('students/', views.student_list, name='student_list'),
-    path('students/<int:student_id>/',views.student_detail, name='student_detail'), 
+    path('students/<int:student_id>/',views.student_detail, name='student_detail'),
+
+    path('issue-tc/', views.issue_tc, name='issue_tc'),
+    path('issue-tc/<str:adm_no>/', views.issue_tc_form, name='issue_tc_form'),
+    path('print-tc/<int:adm_no>/', views.print_tc, name='print_tc'),
+    path('manage-tc/', views.manage_tc, name='manage_tc'),
+
+    path('issue-cc/', views.issue_cc, name='issue_cc'),
+    path('issue-cc/<str:adm_no>/', views.issue_cc_form, name='issue_cc_form'),
+    path('print-cc/<int:adm_no>/', views.print_cc, name='print_cc'),
+    path('manage-cc/', views.manage_cc, name='manage_cc'),
+
+     path('change-credentials/', views.change_credentials, name='change_credentials'),
+    path('change-credentials-done/', TemplateView.as_view(template_name='change_credentials_done.html'), name='change_credentials_done'),
 
 ]
+
+
+
+
+
   

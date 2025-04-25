@@ -75,20 +75,20 @@ class Board(models.Model):
     def __str__(self):
         return self.board_name
 class Reason(models.Model):
-    reason_description = models.CharField(max_length=255)
+    reason_description = models.CharField(max_length=255, unique=True)
 
     def __str__(self):
-        return self.reason_description
+        return self.reason_description  
 
-class TransferCertificate(models.Model):
-    tc_no = models.CharField(max_length=50, unique=True)
-    stud = models.ForeignKey('admission.Student', on_delete=models.CASCADE)  # Assuming 'student' is your app name
-    date_of_application = models.DateField()
-    date_of_issue = models.DateField(null=True, blank=True)
-    reason = models.ForeignKey(Reason, on_delete=models.SET_NULL, null=True)
+# class TransferCertificate(models.Model):
+#     tc_no = models.CharField(max_length=50, unique=True)
+#     stud = models.ForeignKey('admission.Student', on_delete=models.CASCADE)  # Assuming 'student' is your app name
+#     date_of_application = models.DateField()
+#     date_of_issue = models.DateField(null=True, blank=True)
+#     reason = models.ForeignKey(Reason, on_delete=models.SET_NULL, null=True)
 
-    def __str__(self):
-        return f"TC {self.tc_no} - {self.stud}"
+#     def __str__(self):
+#         return f"TC {self.tc_no} - {self.stud}"
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE,null=True,default=None)
@@ -125,9 +125,9 @@ class Student(models.Model):
     language=models.CharField(max_length=10, choices=[('Malayalam', 'Malayalam'), ('Hindi', 'Hindi')] ,default='Malayalam')
     identification_mark = models.TextField(blank=True, null=True)
 
-    year_of_admission = models.IntegerField(default='2025')
-    #
-    # tc_no =  models.ForeignKey(TransferCertificate, on_delete=models.SET_NULL, blank=True, null=True)  # Foreign Key to Caste
+    year_of_admission = models.IntegerField(default=2025)
+
+    
     from django.core.validators import FileExtensionValidator
     photo = models.ImageField(
         upload_to='student_photos/', 
@@ -153,8 +153,8 @@ class Student(models.Model):
 
         super(Student, self).save(*args, **kwargs)
     def __str__(self):
-        return f"{self.stud_name} ({self.stud_adm_no})"
-    
+     return f"{self.stud_name} - {self.stud_adm_no}"
+
 from django.db import models # Importing the Student model
 class DocType(models.Model):
     name = models.CharField(max_length=255, unique=True)  # Unique document type name
@@ -204,45 +204,61 @@ class Role(models.Model):
         return self.name
 
 
-# class CustomUser(AbstractUser):
-#     #phone = models.CharField(max_length=15, unique=True)
-
-#     groups = models.ManyToManyField(Group, related_name="customuser_set", blank=True)
-#     user_permissions = models.ManyToManyField(Permission, related_name="customuser_permissions_set", blank=True)
-
-#     def is_student(self):
-#         return self.groups.filter(name="Student").exists()
-
-#     def is_office_admin(self):
-#         return self.groups.filter(name="Office Admin").exists()
-
-#     def is_principal(self):
-#         return self.groups.filter(name="Principal").exists()
-
-#     def __str__(self):
-#         return self.username
 
 
 
-# class User(models.Model):
-#     user_id = models.CharField(max_length=50, unique=True)
-#     password = models.CharField(max_length=100)  # Consider using Django's `make_password` for security
-#     role = models.ForeignKey(Role, on_delete=models.CASCADE)
+from django.db import models
+from django.utils.timezone import now
 
-#     def __str__(self):
-#         return f"{self.user_id} - {self.role.name}"
-# from django.contrib.auth.models import AbstractUser, Group, Permission
-# from django.db import models
+class TransferCertificate(models.Model):
+    tc_no = models.CharField(max_length=20, unique=True)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    dob = models.DateField()
+    admission_no = models.CharField(max_length=20,null=True, blank=True)
+    date_of_admission = models.DateField()  # Allowing NULL
+    programme = models.CharField(max_length=255, default="Not Specified")
+    # details_of_exam = models.CharField(max_length=255, default="Kannur University")  # ✅ Add this field
+    details_of_exam  = models.TextField(default="Kannur University")
+    scholarship = models.CharField(max_length=225, blank=True, null=True)
+    reason = models.ForeignKey(Reason, on_delete=models.SET_NULL, null=True, blank=False)  # ✅ Dropdown Selection
 
-# class CustomUser(AbstractUser):
-#     role = models.CharField(max_length=50, choices=[
-#         ('Student', 'Student'),
-#         ('Office Admin', 'Office Admin'),
-#         ('Principal', 'Principal'),
-#     ], default='Student')
+    date_of_application = models.DateField(default=now)
+    date_of_issuing_tc = models.DateField(default=now)
+    
+    mode_of_study = models.CharField(max_length=20, default="Regular")
+    date_of_leaving = models.DateField(null=True, blank=True,default=now)
+    reg_no = models.CharField(max_length=20, blank=True, null=True)
+    month_year = models.CharField(max_length=7)
+    dues_cleared = models.CharField(
+        max_length=3,
+        choices=[("Yes", "Yes"), ("No", "No")],
+        default="Yes"
+    )
 
-#     groups = models.ManyToManyField(Group, related_name="custom_users", blank=True)
-#     user_permissions = models.ManyToManyField(Permission, related_name="custom_users_permissions", blank=True)
 
-#     def __str__(self):
-#         return self.username
+    def save(self, *args, **kwargs):
+        if not self.tc_no:
+            last_tc = TransferCertificate.objects.order_by('-id').first()
+            if last_tc:
+                last_tc_no = int(last_tc.tc_no.split('/')[0]) + 1
+            else:
+                last_tc_no = 503
+            self.tc_no = f"{last_tc_no}/2024-2025"
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"TC {self.tc_no} - {self.student.stud_name}"
+from django.db import models
+from datetime import date
+
+
+class CourseCertificate(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='course_certificates')
+    dob = models.DateField()
+    admission_no = models.CharField(max_length=50)
+    program = models.CharField(max_length=100)
+    date_of_issue = models.DateField()
+
+  
+    def __str__(self):
+        return f"Course Certificate for {self.student.stud_name} "

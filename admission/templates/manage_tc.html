@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center">Manage Transfer Certificates</h2>
+
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Sl No</th>
+                <th>TC No</th>
+                <th>Student Name</th>
+                <th>Admission No</th>
+                <th>Program</th>
+                <th>Date of Issue</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+
+            {% for tc in tc_list %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ tc.tc_no }}</td>
+                <td>{{ tc.student.stud_name }}</td>
+                <td>{{ tc.admission_no }}</td>
+                <td>{{ tc.student.program.program_name }}</td>
+                <td>{{ tc.date_of_issuing_tc }}</td>
+                <td>
+                    <a href="{% url 'print_tc' adm_no=tc.admission_no %}" class="btn btn-info btn-sm">Print</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" class="text-center">No Transfer Certificates issued yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'issue_tc' %}" class="btn btn-success">Issue New TC</a>
+</div>
+{% endblock %}

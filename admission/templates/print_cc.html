@@ -1,0 +1,118 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Course & Conduct Certificate</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            margin: 40px;
+            padding: 20px;
+            border: 2px solid black;
+            position: relative;
+            z-index: 1;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: 300px;
+            background-image: url("{% static 'admission/images/emblem.png' %}");
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+            transform: translate(-50%, -50%);
+            opacity: 0.08;
+            filter: blur(1px);
+            z-index: 0;
+        }
+
+        .header-img, .footer-img, .print-btn, .certificate-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-img, .footer-img {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .footer-img {
+            margin-top: 40px;
+        }
+
+        .header-img img,
+        .footer-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .tc-header {
+            text-align: center;
+            font-weight: bold;
+            font-size: 22px;
+            margin-bottom: 30px;
+            text-decoration: underline;
+        }
+
+        .certificate-content {
+            font-size: 18px;
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        .signature-section {
+            margin-top: 60px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+        }
+
+        .print-btn {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        @media print {
+            .print-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header-img">
+    <img src="{% static 'admission/images/TCHead3.png' %}" alt="Header Image">
+</div>
+
+<div class="tc-header">
+    COURSE & CONDUCT CERTIFICATE
+</div>
+
+<div class="certificate-content">
+    This is to certify that <strong>Mr./Ms. {{ cc.student.stud_name }}</strong>, Date of Birth <strong>{{ cc.student.dob|date:"d.m.Y" }}</strong>, was a student of the <strong>{{ cc.student.program.program_name }}</strong> programme with Admission Number <strong>{{ cc.admission_no }}</strong> of this College.<br><br>
+
+    His/Her general conduct is ........................................
+</div>
+
+<div class="signature-section">
+    <div>Date: {{ cc.date_of_issue|date:"d.m.Y" }}</div>
+    <div style="margin-right: 40px;"><strong>Principal</strong></div>
+</div>
+
+<div class="footer-img">
+    <img src="{% static 'admission/images/TCFoot.png' %}" alt="Footer Image">
+</div>
+
+<div class="print-btn">
+    <button onclick="window.print()">🖨️ Print Certificate</button>
+</div>
+
+</body>
+</html>

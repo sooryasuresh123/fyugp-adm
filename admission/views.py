@@ -226,42 +226,144 @@ def delete_student(request, pk):
    return render(request, 'delete_student.html', {'student': student})
 
 
-def transfer_certificate_list(request):
-    tc_list = TransferCertificate.objects.all()
-    return render(request, 'transfer_certificate_list.html', {'tc_list': tc_list})
+# def transfer_certificate_list(request):
+#     tc_list = TransferCertificate.objects.all()
+#     return render(request, 'transfer_certificate_list.html', {'tc_list': tc_list})
 
-def add_transfer_certificate(request):
-    if request.method == 'POST':
-        form = TransferCertificateForm(request.POST)
+# def add_transfer_certificate(request):
+#     if request.method == 'POST':
+#         form = TransferCertificateForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('transfer_certificate_list')
+#     else:
+#         form = TransferCertificateForm()
+#     return render(request, 'add_transfer_certificate.html', {'form': form})
+# def edit_transfer_certificate(request, tc_id):
+#     tc = get_object_or_404(TransferCertificate, id=tc_id)
+    
+#     if request.method == 'POST':
+#         form = TransferCertificateForm(request.POST, instance=tc)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, "Transfer Certificate updated successfully!")
+#             return redirect('transfer_certificate_list')  # Redirect to TC list page
+#     else:
+#         form = TransferCertificateForm(instance=tc)
+
+#     return render(request, 'edit_transfer_certificate.html', {'form': form, 'tc': tc})
+# def delete_transfer_certificate(request, tc_id):
+#     tc = get_object_or_404(TransferCertificate, id=tc_id)
+    
+#     if request.method == 'POST':
+#         tc.delete()
+#         messages.success(request, "Transfer Certificate deleted successfully!")
+#         return redirect('transfer_certificate_list')  # Redirect to TC list page
+    
+#     return render(request, 'confirm_delete.html', {'tc': tc})
+
+from django.shortcuts import render, get_object_or_404, redirect
+from django.utils.timezone import now
+from .models import TransferCertificate,Reason
+from .models import Student
+from .forms import TransferCertificateForm
+from django.shortcuts import render, redirect
+from django.contrib import messages
+
+def manage_tc(request):
+    tc_list = TransferCertificate.objects.all().order_by('-id')  # newest first
+    return render(request, 'manage_tc.html', {'tc_list': tc_list})
+
+
+
+def issue_tc(request):
+    if request.method == "GET" and "adm_no" in request.GET:
+        adm_no = request.GET.get("adm_no")
+        return redirect("issue_tc_form", adm_no=adm_no)
+    return render(request, "issue_tc.html")
+
+
+
+
+def issue_tc_form(request, adm_no):
+    student = get_object_or_404(Student, stud_adm_no=adm_no)
+
+    last_tc = TransferCertificate.objects.order_by('-id').first()
+    last_tc_number = int(last_tc.tc_no.split('/')[0]) + 1 if last_tc else 503
+    tc_number = f"{last_tc_number}/2024-2025"
+
+    if TransferCertificate.objects.filter(student=student).exists():
+        messages.error(request, "TC has already been issued for this student.")
+        return redirect('issue_tc')
+
+    if request.method == "POST":
+        print("Form submitted!")
+
+        post_data = request.POST.copy()
+
+        post_data['student'] = student.pk
+        post_data['details_of_exam'] = "Kannur University"
+        post_data['programme'] = student.program.pk if student.program else ''
+        post_data['reg_no'] = student.stud_reg_no
+        post_data['mode_of_study'] = "Regular"
+
+        for date_field in ['dob', 'date_of_admission', 'date_of_leaving', 'date_of_application']:
+            if post_data.get(date_field):
+                try:
+                    d = post_data[date_field].split('-')
+                    if len(d[0]) == 2: 
+                        post_data[date_field] = f"{d[2]}-{d[1]}-{d[0]}"
+                except Exception as e:
+                    print(f"Date conversion error: {e}")
+
+        post_data['month_year'] = now().strftime('%m-%Y')
+        
+        form = TransferCertificateForm(post_data)
         if form.is_valid():
-            form.save()
-            return redirect('transfer_certificate_list')
-    else:
-        form = TransferCertificateForm()
-    return render(request, 'add_transfer_certificate.html', {'form': form})
-def edit_transfer_certificate(request, tc_id):
-    tc = get_object_or_404(TransferCertificate, id=tc_id)
-    
-    if request.method == 'POST':
-        form = TransferCertificateForm(request.POST, instance=tc)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Transfer Certificate updated successfully!")
-            return redirect('transfer_certificate_list')  # Redirect to TC list page
-    else:
-        form = TransferCertificateForm(instance=tc)
+            tc = form.save(commit=False)
+            tc.tc_no = tc_number
+            tc.admission_no = student.stud_adm_no  
 
-    return render(request, 'edit_transfer_certificate.html', {'form': form, 'tc': tc})
-def delete_transfer_certificate(request, tc_id):
-    tc = get_object_or_404(TransferCertificate, id=tc_id)
-    
-    if request.method == 'POST':
-        tc.delete()
-        messages.success(request, "Transfer Certificate deleted successfully!")
-        return redirect('transfer_certificate_list')  # Redirect to TC list page
-    
-    return render(request, 'confirm_delete.html', {'tc': tc})
+            tc.date_of_issuing_tc = now().date()
+            tc.save()
 
+            student.status = False
+            student.save()
+
+            messages.success(request, f"Transfer Certificate for {student.stud_name} has been successfully issued.")
+            return redirect('manage_tc')
+        else:
+            print("Form Errors:", form.errors)
+
+    else:
+        
+        initial_data = {
+            'student': student.pk,
+            'stud_name': student.stud_name,
+            'dob': student.dob.strftime('%Y-%m-%d'),
+            'stud_adm_no': student.stud_adm_no,
+            'date_of_admission': student.date_of_joining.strftime('%Y-%m-%d'),
+            'programme': student.program,
+            'details_of_exam': "Kannur University",
+            'mode_of_study': "Regular",
+            'scholarship': student.egrantz if student.egrantz else "",
+            'date_of_application': now().date(),
+            'tc_no': tc_number,
+            'reg_no': student.stud_reg_no,
+            'date_of_leaving': now().date(),
+            'month_year': now().strftime('%m-%Y'),
+            'dues_cleared': "Yes",
+            'date_of_issuing_tc': now().date(),
+            'reason': getattr(student, 'reason', None),
+        }
+
+        form = TransferCertificateForm(initial=initial_data)
+
+    return render(request, 'issue_tc_form.html', {'form': form, 'today': now().date()})
+
+def print_tc(request, adm_no):
+    tc = TransferCertificate.objects.get(admission_no=adm_no)
+    return render(request, 'print_tc.html', {'tc': tc})
 
 
 def manage_scholarships(request):
@@ -332,107 +434,6 @@ def user_logout(request):
     return redirect('login')
 
 
-# def manage_qualified_marks(request):
-#     qualified_marks = QualifiedMark.objects.select_related('stud','board').all()
-#     return render(request, 'manage_qualified_marks.html', {'qualified_marks': qualified_marks})
-
-# def add_qualified_mark(request):
-#     if request.method == 'POST':
-#         form = QualifiedMarkForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('manage_qualified_marks')
-#     else:
-#         form = QualifiedMarkForm()
-#     return render(request, 'add_qualified_mark.html', {'form': form})
-
-# def edit_qualified_mark(request, stud_id):
-#     qualified_mark = get_object_or_404(QualifiedMark, stud_id=stud_id)
-#     if request.method == 'POST':
-#         form = QualifiedMarkForm(request.POST, instance=qualified_mark)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('manage_qualified_marks')
-#     else:
-#         form = QualifiedMarkForm(instance=qualified_mark)
-#     return render(request, 'edit_qualified_mark.html', {'form': form})
-
-# def delete_qualified_mark(request, stud_id):
-#     qualified_mark = get_object_or_404(QualifiedMark, stud_id=stud_id)
-    
-#     if request.method == 'POST':
-#         qualified_mark.delete()
-#         return redirect('manage_qualified_marks')
-
-#     return render(request, 'delete_qualified_mark.html', {'qualified_mark': qualified_mark})
-
-# def custom_login(request):
-#     if request.method == 'POST':
-#         username = request.POST['username']
-#         password = request.POST['password']
-#         user = authenticate(request, username=username, password=password)
-        
-#         if user is not None:
-#             login(request, user)
-#             if user.is_superuser:
-                
-#                 return redirect('index')  # Redirect to home page or dashboard
-#         else:
-#             messages.error(request, "Invalid credentials")
-    
-#     return render(request, 'login.html')
-
-
-# def manage_users(request):
-#     users = User.objects.all()
-#     return render(request, 'manage_users.html', {'users': users})
-
-# def add_user(request):
-#     if request.method == 'POST':
-#         form = UserForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('manage_users')
-#     else:
-#         form = UserForm()
-#     return render(request, 'add_user.html', {'form': form})
-
-# def edit_user(request, user_id):
-#     user = get_object_or_404(User, pk=user_id)
-#     if request.method == 'POST':
-#         form = UserForm(request.POST, instance=user)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('manage_users')
-#     else:
-#         form = UserForm(instance=user)
-#     return render(request, 'edit_user.html', {'form': form})
-
-# def delete_user(request, user_id):
-#     user = get_object_or_404(User, pk=user_id)
-#     if request.method == 'POST':
-#         user.delete()
-#         return redirect('manage_users')
-#     return render(request, 'delete_user.html', {'user': user})
-
-# from django.shortcuts import render, redirect
-# from django.contrib.auth.decorators import login_required
-
-# @login_required
-# def dashboard(request):
-#     user = request.user
-    
-#     if user.is_student():
-#         return render(request, 'dashboard.html')
-    
-#     elif user.is_office_admin():
-#         return render(request, 'dashboard.html')
-    
-#     elif user.is_principal():
-#         return render(request, 'dashboard.html')
-    
-#     else:
-#         return redirect('login')  # Redirect to login if no role found
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Document
 from .forms import DocumentForm
@@ -517,3 +518,140 @@ def student_list(request):
 def student_detail(request, student_id):
     student = get_object_or_404(Student, id=student_id)
     return render(request, 'student_details.html', {'student': student})
+
+from .models import CourseCertificate,Reason
+from .models import Student
+from .forms import CourseCertificateForm
+from django.shortcuts import render, redirect
+from django.contrib import messages
+
+def manage_cc(request):
+    cc_list = CourseCertificate.objects.all().order_by('-id')  # newest first
+    return render(request, 'manage_cc.html', {'cc_list': cc_list})
+
+
+
+def issue_cc(request):
+    if request.method == "GET" and "adm_no" in request.GET:
+        adm_no = request.GET.get("adm_no")
+        return redirect("issue_cc_form", adm_no=adm_no)
+    return render(request, "issue_cc.html")
+
+
+
+
+def issue_cc_form(request, adm_no):
+    student = get_object_or_404(Student, stud_adm_no=adm_no)
+
+    if CourseCertificate.objects.filter(student=student).exists():
+        messages.error(request, "CC has already been issued for this student.")
+        return redirect('issue_cc')
+
+    if request.method == "POST":
+        print("Form submitted!")
+
+        post_data = request.POST.copy()
+
+        post_data['student'] = student.pk
+    
+        post_data['programme'] = student.program.pk if student.program else ''
+
+
+        for date_field in [ 'dob','date_of_issue']:
+            if post_data.get(date_field):
+                try:
+                    d = post_data[date_field].split('-')
+                    if len(d[0]) == 2: 
+                        post_data[date_field] = f"{d[2]}-{d[1]}-{d[0]}"
+                except Exception as e:
+                    print(f"Date conversion error: {e}")
+
+
+        
+        form = CourseCertificateForm(post_data)
+        if form.is_valid():
+            cc = form.save(commit=False)
+            cc.admission_no = student.stud_adm_no  
+            cc.dob=student.dob
+            cc.date_of_issue = now().date()
+            cc.student = student
+            cc.program = student.program.program_name
+            cc.save()
+
+            student.status = False
+            student.save()
+
+            messages.success(request, f"Course Certificate for {student.stud_name} has been successfully issued.")
+            return redirect('manage_cc')
+        else:
+            print("Form Errors:", form.errors)
+
+    else:
+        
+        initial_data = {
+            'student': student.pk,
+            'stud_name': student.stud_name,
+            'stud_adm_no': student.stud_adm_no,
+            'dob': student.dob.strftime('%Y-%m-%d'),
+            'programme': student.program.program_name,
+            'date_of_issue': now().date(),
+        }
+
+        form = CourseCertificateForm(initial=initial_data)
+
+    return render(request, 'issue_cc_form.html', {'form': form, 'today': now().date()})
+
+def print_cc(request, adm_no):
+    cc = CourseCertificate.objects.get(admission_no=adm_no)
+    return render(request, 'print_cc.html', {'cc': cc})
+
+from django.contrib.auth.models import User
+from django.db import IntegrityError
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.shortcuts import render, redirect
+
+@login_required
+def change_credentials(request):
+    if request.method == 'POST':
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+        new_username = request.POST.get('new_username')
+
+        password_changed = False
+        username_changed = False
+
+        # Password Change
+        if new_password and confirm_password:
+            if new_password == confirm_password:
+                request.user.set_password(new_password)
+                request.user.save()
+                update_session_auth_hash(request, request.user)
+                password_changed = True
+            else:
+                messages.error(request, 'Passwords do not match.')
+
+        # Username Change
+        if new_username:
+            if User.objects.filter(username=new_username).exclude(pk=request.user.pk).exists():
+                messages.error(request, 'Username already exists. Please choose another one.')
+            else:
+                try:
+                    request.user.username = new_username
+                    request.user.save()
+                    username_changed = True
+                except IntegrityError:
+                    messages.error(request, 'Username update failed due to database error.')
+
+        if password_changed and username_changed:
+            messages.success(request, 'Password and Username updated successfully.')
+            return redirect('change_credentials_done')
+        elif password_changed:
+            messages.success(request, 'Password updated successfully.')
+            return redirect('change_credentials_done')
+        elif username_changed:
+            messages.success(request, 'Username updated successfully.')
+            return redirect('change_credentials_done')
+
+    return render(request, 'change_credentials.html')

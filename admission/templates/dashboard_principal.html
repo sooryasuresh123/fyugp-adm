@@ -75,20 +75,20 @@
                 <div class="card-body text-center">
                     <h5 class="card-title"style="color: #6a0dad;">Manage TC</h5>
                     <p class="card-text text-muted">Transfer Certificate.</p>
-                    <a href="{% url 'transfer_certificate_list' %}" class="btn" style="background-color: #6a0dad; color: white;">Go to TC</a>
+                    <a href="{% url 'manage_tc' %}" class="btn" style="background-color: #6a0dad; color: white;">Go to TC</a>
                 </div>
             </div>
         </div>
 
-        {% comment %} <div class="col-md-6 col-lg-4 mb-3">
-            <div class="card shadow-sm border-0 rounded">
+        <div class="col-md-6 col-lg-4 mb-3">
+            <div class="card shadow border-0 rounded" style="background: linear-gradient(to right, #ffecd2, #fcb69f);">
                 <div class="card-body text-center">
-                    <h5 class="card-title"style="color: #008B8B;">Manage Users</h5>
-                    <p class="card-text text-muted">Manage user role ,id and password.</p>
-                    <a href="{% url 'manage_users' %}" class="btn" style="background-color: #008B8B; color: white;">Go to Users</a>
+                    <h5 class="card-title" style="color:rgb(68, 38, 9)"> Manage Course Certificate</h5>
+                    <p class="card-text text-muted">Upload, generate, and view course certificates with ease.</p>
+                    <a href="{% url 'manage_cc'%}" class="btn" style="background-color:rgb(95, 62, 11); color: white; font-weight: 500; box-shadow: 0 4px 10px rgba(90, 57, 13, 0.3); border-radius: 25px;">Go to Certificate</a>
                 </div>
             </div>
-        </div> {% endcomment %}
+        </div>
         
          <div class="col-md-6 col-lg-4 mb-3">
             <div class="card shadow-sm border-0 rounded">

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Department,Program,Student,TransferCertificate, Caste, Religion, Quota,ProgramLevel,Scholarship, StudentScholarship,Category,User
+from .models import Department,Program,Student,TransferCertificate, Caste, Religion, Quota,ProgramLevel,Scholarship, StudentScholarship,Category,User,CourseCertificate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User, Group
 
@@ -70,14 +70,95 @@ class DocumentForm(forms.ModelForm):
         fields = ['student', 'document_name', 'document_file']
 
 
+
+
+from django import forms
+from .models import TransferCertificate
+from django import forms
+from .models import TransferCertificate,Reason
+from django.utils.timezone import now
+
+from django import forms
+from django.utils.timezone import now
+from .models import TransferCertificate, Reason
+
 class TransferCertificateForm(forms.ModelForm):
+    stud_name = forms.CharField(required=False, widget=forms.TextInput(attrs={'readonly': 'readonly'}))  
+    stud_adm_no = forms.CharField(required=False, widget=forms.TextInput(attrs={'readonly': 'readonly'}))  
+    date_of_leaving = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+
+    month_year = forms.CharField(
+    required=True,
+    widget=forms.DateInput(attrs={'type': 'month'}),
+    label="Month and Year"
+)
+
+
+    date_of_application = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date'}),  # Enables date picker
+        initial=now().date(),
+        required=False
+    )
+
+    scholarship = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+
+    reason = forms.ModelChoiceField(
+        queryset=Reason.objects.all(),
+        empty_label="--Select a Reason--",
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        required=True
+    )
+
+    general_conduct = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+
     class Meta:
         model = TransferCertificate
-        fields = ['tc_no', 'stud', 'date_of_application', 'date_of_issue', 'reason']
+        fields = '__all__'
+
         widgets = {
+            'stud_name': forms.TextInput(attrs={'readonly': 'readonly'}),
+            'dob': forms.TextInput(attrs={'readonly': 'readonly'}),
+            'stud_adm_no': forms.TextInput(attrs={'readonly': 'readonly'}),
+            'date_of_admission': forms.TextInput(attrs={'readonly': 'readonly'}),
+            'mode_of_study': forms.TextInput(attrs={'readonly': 'readonly', 'value': 'Regular'}),
             'date_of_application': forms.DateInput(attrs={'type': 'date'}),
-            'date_of_issue': forms.DateInput(attrs={'type': 'date'}),
+            'date_of_leaving': forms.DateInput(attrs={'type': 'date'}),
+            'month_year': forms.DateInput(attrs={'type': 'month'}),  # already handled above
+            'dues_cleared': forms.Select(choices=[("Yes", "Yes"), ("No", "No")]),
+            'date_of_issuing_tc': forms.TextInput(attrs={'readonly': 'readonly'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super(TransferCertificateForm, self).__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:
+            self.fields['dob'].widget.attrs.update({
+                'readonly': 'readonly', 'value': self.instance.dob.strftime('%d-%m-%Y')
+            })
+            self.fields['date_of_admission'].widget.attrs.update({
+                'readonly': 'readonly', 'value': self.instance.date_of_admission.strftime('%d-%m-%Y')
+            })
+            self.fields['date_of_application'].widget.attrs.update({
+                'readonly': 'readonly', 'value': self.instance.date_of_application.strftime('%d-%m-%Y')
+            })
+            self.fields['mode_of_study'].widget.attrs.update({
+                'readonly': 'readonly', 'value': 'Regular'
+            })
+            self.fields['date_of_issuing_tc'].initial = now().strftime("%d-%m-%Y")
+            self.fields['date_of_issuing_tc'].widget.attrs['readonly'] = True
+
+    def clean_reason(self):
+        reason = self.cleaned_data.get("reason")
+        if reason is None:
+            raise forms.ValidationError("Please select a valid reason for TC.")
+        return reason
+
+
 
 class ScholarshipForm(forms.ModelForm):
     class Meta:
@@ -97,41 +178,38 @@ class StudentScholarshipForm(forms.ModelForm):
             'amount': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter Amount'}),
         }
 
-# class QualifiedMarkForm(forms.ModelForm):
-#     class Meta:
-#         model = QualifiedMark
-#         fields = ['stud', 'board', 'normalized_marks']
+class CourseCertificateForm(forms.ModelForm):
+    stud_name = forms.CharField(required=False, widget=forms.TextInput(attrs={'readonly': 'readonly'}))  
+    stud_adm_no = forms.CharField(required=False, widget=forms.TextInput(attrs={'readonly': 'readonly'}))  
+    programme = forms.CharField(
+    label="Program",
+    required=False,
+    widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'readonly': 'readonly',
+        'style': 'font-weight: bold; color: black;'
+    })
+)
+
+    class Meta:
+        model = CourseCertificate
+        exclude = ['admission_no', 'program', 'student']
+
+        widgets = {
+            'stud_name': forms.TextInput(attrs={'readonly': 'readonly'}),
+            'stud_adm_no': forms.TextInput(attrs={'readonly': 'readonly'}),
+            'programme':forms.TextInput(attrs={'readonly': 'readonly'}),
+            'dob':forms.TextInput(attrs={'readonly': 'readonly'}),
+            'date_of_issue': forms.TextInput(attrs={'readonly': 'readonly'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(CourseCertificateForm, self).__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:
+           
+            self.fields['date_of_issue'].initial = now().strftime("%d-%m-%Y")
+            self.fields['date_of_issue'].widget.attrs['readonly'] = True
+
     
-# class UserForm(forms.ModelForm):
-#     class Meta:
-#         model = User
-#         fields = ['user_id', 'password', 'role']
-#         widgets = {
-#             'password': forms.PasswordInput(),
-#         }
 
-
-# class UserForm(forms.ModelForm):
-#     confirm_password = forms.CharField(
-#         widget=forms.PasswordInput(attrs={'class': 'form-control'}),
-#         label="Confirm Password"
-#     )
-
-#     class Meta:
-#         model = User
-#         fields = ['user_id', 'password', 'confirm_password', 'role']
-#         widgets = {
-#             'password': forms.PasswordInput(attrs={'class': 'form-control'}),
-#         }
-
-#     def clean(self):
-#         cleaned_data = super().clean()
-#         password = cleaned_data.get("password")
-#         confirm_password = cleaned_data.get("confirm_password")
-
-#         if password and confirm_password and password != confirm_password:
-#             self.add_error('confirm_password', "Passwords do not match!")
-
-#         return cleaned_data
-    
 

@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    /* Centering the form while keeping the header & footer intact */
+    .form-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 80vh; /* Ensures it doesn't push the footer down */
+    }
+
+    .form-container {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: all 0.3s ease-in-out;
+        width: 400px;
+    }
+
+    .form-container:hover {
+        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+        transform: translateY(-5px);
+    }
+
+    label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 10px;
+        font-size: 18px;
+    }
+
+    input {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        font-size: 20px;
+        background: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 6px;
+        transition: background 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+        background: #0056b3;
+        transform: scale(1.05);
+    }
+
+    small {
+        color: red;
+        display: none;
+    }
+</style>
+
+<div class="form-wrapper">
+    <div class="form-container">
+        <form method="GET" action="{% url 'issue_cc' %}" onsubmit="return validateForm()">
+            <label for="adm_no">Enter Admission Number:</label>
+            <input type="text" id="adm_no" name="adm_no" required minlength="5" maxlength="10" pattern="[0-9]+" 
+                   placeholder="Enter Admission No." title="Only numbers are allowed">
+            
+            <small id="error-msg">Please enter a valid admission number (Only numbers allowed).</small>
+
+            <button type="submit">Proceed</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function validateForm() {
+        let admNoField = document.getElementById("adm_no");
+        let errorMsg = document.getElementById("error-msg");
+
+        if (!/^\d+$/.test(admNoField.value)) {
+            errorMsg.style.display = "block";
+            return false; // Prevent form submission
+        }
+        errorMsg.style.display = "none";
+        return true;
+    }
+</script>
+
+{% endblock %}

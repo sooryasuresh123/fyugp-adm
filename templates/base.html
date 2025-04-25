@@ -29,7 +29,7 @@
         .navbar {
             background: #000 !important;
             padding: 10px 0;
-            position: fixed;
+            position: relative;
             width: 100%;
             z-index: 1000;
         }
@@ -113,14 +113,28 @@
     </style>
 </head>
 <body>
+
     
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark" style="background: #000; padding: 10px 20px;">
+        
         <div class="container-fluid">
             <a class="navbar-brand" href="/">Admission Portal</a>
         </div>
     </nav>
-
+    {% if messages %}
+    <div class="container mt-3">
+        {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+    
     <!-- Sidebar -->
     <div class="sidebar">
         <ul class="nav flex-column">
@@ -164,8 +178,18 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/transfer-certificates">
+                <a class="nav-link" href="/manage-tc/">
                     <i class="bi bi-file-text-fill"></i> <span class="nav-text">Transfer Certificate</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/manage-cc/">
+                    <i class="bi bi-file-text-fill"></i> <span class="nav-text">Conduct Certificate</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'change_credentials' %}">
+                    <i class="bi bi-key-fill"></i> <span class="nav-text">Change Credentials</span>
                 </a>
             </li>
             {% if user.is_authenticated %}

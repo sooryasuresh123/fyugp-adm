@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    /* Full-width form layout */
+    .form-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 90vh;
+        background: #f4f4f4;
+        padding: 40px;
+    }
+
+    /* Form Styling */
+    .form-container {
+        width: 80%;
+        max-width: 900px;
+        background: #fff;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease-in-out;
+    }
+
+    /* Form Heading */
+    .form-container h2 {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    /* Label Styling */
+    label {
+        font-size: 16px;
+        font-weight: bold;
+        display: block;
+        margin-bottom: 8px;
+        color: #444;
+    }
+
+    /* Input Fields */
+    input, textarea, select {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        border: 2px solid #ddd;
+        border-radius: 6px;
+        margin-bottom: 16px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    /* Read-only fields */
+    input[readonly] {
+        background-color: #f7f7f7;
+        font-weight: bold;
+    }
+
+    /* Input Focus Effect */
+    input:focus, textarea:focus, select:focus {
+        border-color: #007bff;
+        box-shadow: 0px 0px 6px rgba(0, 123, 255, 0.3);
+    }
+
+    /* Submit Button */
+    button {
+        width: 100%;
+        padding: 14px;
+        font-size: 18px;
+        background: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 6px;
+        transition: all 0.3s;
+    }
+
+    /* Button Hover Effect */
+    button:hover {
+        background: #0056b3;
+        transform: scale(1.02);
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .form-container {
+            width: 95%;
+            padding: 30px;
+        }
+    }
+</style>
+
+<div class="form-wrapper">
+    <div class="form-container">
+        <h2>Issue Transfer Certificate</h2>
+        <form method="POST">
+            {% csrf_token %}
+            
+            <label for="tc_no">TC No:</label>
+            {{ form.tc_no }}
+
+            <label for="stud_name">Name of the Student:</label>
+            {{ form.stud_name }}
+
+            <label for="dob">Date of Birth:</label>
+            {{ form.dob }}
+
+            <label for="stud_adm_no">Admission No:</label>
+            {{ form.stud_adm_no }}
+
+            <label for="date_of_admission">Date of Admission:</label>
+            {{ form.date_of_admission }}
+
+            <label for="date_of_leaving">Date of Leaving:</label>
+            {{ form.date_of_leaving }}
+
+            <label for="programme">Programme:</label>
+            {{ form.programme }}
+
+            <label for="mode_of_study">Mode of Study:</label>
+            <input type="text" name="mode_of_study" value="Regular" readonly>
+
+            <label for="university">Details of the Examination Last Attended</label>
+            <label>Name Of University:</label>
+            <input type="text" value="Kannur University" readonly>
+
+            <label for="reg_no">Register No:</label>
+            {{ form.reg_no }}
+
+            <label for="month_year">Month & Year:</label>
+            {{ form.month_year }}
+
+            <label for="dues_cleared">Dues Cleared?</label>
+            {{ form.dues_cleared }}
+
+            <label for="scholarship">Recipient of any Scholarship or fee concession?</label>
+            {{ form.scholarship }}
+
+            <label for="reason">Reason for TC:</label>
+            {{ form.reason }}
+
+            <label for="general_conduct">General Conduct:</label>
+            {{ form.general_conduct }}
+
+            <label for="date_of_application">Date of Application:</label>
+            {{ form.date_of_application }}
+
+            <label for="date_of_issuing_tc">Date of Issuing TC:</label>
+            <input type="text" name="date_of_issuing_tc" value="{{ today }}" readonly>
+            
+            <button type="submit">Issue TC</button>
+            {% if form.errors %}
+                <div style="color:red;">
+                    {{ form.errors }}
+                </div>
+            {% endif %}
+        </form>
+    </div>
+</div>
+
+{% endblock %}

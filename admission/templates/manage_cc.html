@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center">Manage Course Certificates</h2>
+
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Sl No</th>
+                <th>Student Name</th>
+                <th>DOB</th>
+                <th>Admission No</th>
+                <th>Program</th>
+                <th>Date of Issue</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+
+            {% for cc in cc_list %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ cc.student.stud_name }}</td>
+                <td>{{ cc.student.dob }}</td>
+                <td>{{ cc.admission_no }}</td>
+                <td>{{ cc.student.program.program_name }}</td>
+                <td>{{ cc.date_of_issue }}</td>
+                <td>
+                    <a href="{% url 'print_cc' adm_no=cc.admission_no %}" class="btn btn-info btn-sm">Print</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" class="text-center">No Cource Certificates issued yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'issue_cc' %}" class="btn btn-success">Issue New CC</a>
+</div>
+{% endblock %}
