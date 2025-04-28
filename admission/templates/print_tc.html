@@ -4,17 +4,35 @@
 <head>
     <title>Transfer Certificate</title>
     <style>
-        body {
+        @page {
+            size: A4;
+            margin: 0;
+        }
+        
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
             font-family: 'Times New Roman', serif;
-            margin: 40px;
-            padding: 20px;
-            border: 2px solid black;
-            position: relative;
-            z-index: 1;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        /* Blurred emblem background */
-        body::before {
+        .certificate-border {
+            width: 210mm;
+            height: 297mm;
+            padding: 20mm;
+            box-sizing: border-box;
+            border: 2px solid black;
+            background-color: white;
+            position: relative;
+        }
+
+        /* Emblem blur */
+        .certificate-border::before {
             content: "";
             position: absolute;
             top: 50%;
@@ -31,167 +49,171 @@
             z-index: 0;
         }
 
-        .tc-header, .tc-details, .header-img, .footer-img, .print-btn {
+        .content-wrapper {
             position: relative;
             z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* header + details + footer */
+        }
+
+        .header-img, .footer-img, .tc-header, .tc-details {
+            text-align: center;
+        }
+
+        .header-img img, .footer-img img {
+            width: 100%;
+            max-width: 650px;
+            height: auto;
         }
 
         .tc-header {
-            text-align: center;
             font-weight: bold;
             font-size: 22px;
-            margin-bottom: 30px;
+            margin: 20px 0;
+            text-decoration: underline;
         }
 
         .tc-details {
-            margin-top: 20px;
+            font-size: 18px;
+            text-align: justify;
+            line-height: 1.8;
+            margin-top: 10px;
+            flex-grow: 1;
         }
 
-        .tc-details ol {
-            padding-left: 0;
+        .tc-details ol, .tc-details ul {
+            list-style: none;
+            padding: 0;
             margin: 0;
-            list-style-type: none;
         }
 
         .tc-details li {
-            margin: 15px 0;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
         }
 
         .field-label {
             width: 45%;
-            text-align: left;
+            font-weight: normal;
         }
 
         .field-colon {
+            width: 5%;
             text-align: center;
-            width: 10%;
         }
 
         .field-value {
-            width: 45%;
+            width: 50%;
             font-weight: bold;
-            text-align: left;
+        }
+
+        .roman-list li {
+            display: flex;
+            flex-wrap: wrap;
+            margin-left: 30px;
+            margin-bottom: 8px;
+        }
+
+        .roman-label {
+            width: 45%;
+            font-weight: normal;
+        }
+
+        .roman-colon {
+            width: 5%;
+            text-align: center;
+        }
+
+        .roman-value {
+            width: 50%;
+            font-weight: bold;
         }
 
         .print-btn {
-            margin-top: 20px;
-            text-align: center;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
         }
 
         @media print {
             .print-btn {
                 display: none;
             }
-        }
 
-        .header-img, .footer-img {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+            html, body {
+                width: 100%;
+                height: 100%;
+                background: white;
+            }
 
-        .footer-img {
-            margin-top: 40px;
-        }
-
-        .header-img img,
-        .footer-img img {
-            width: 100%;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-        }
-
-        .main-list, .roman-list {
-            list-style: none;
-            padding-left: 0;
-            margin-left: 0;
-        }
-
-        .main-list > li,
-        .roman-list > li {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 10px;
-        }
-
-        .roman-list {
-            margin-left: 40px;
-        }
-
-        .field-label {
-            min-width: 200px;
-            display: inline-block;
-        }
-
-        .field-colon {
-            width: 10px;
-            text-align: center;
-            display: inline-block;
-        }
-
-        .field-value {
-            font-weight: bold;
-            flex: 1;
+            .certificate-border {
+                border: none;
+                padding: 15mm;
+                height: auto;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="header-img">
-    <img src="{% static 'admission/images/TCHead3.png' %}" alt="Header Image">
+<div class="certificate-border">
+    <div class="content-wrapper">
+        
+        <div class="header-img">
+            <img src="{% static 'admission/images/TCHead3.png' %}" alt="Header Image">
+        </div>
+
+        <div>
+            <div class="tc-header">
+                TRANSFER CERTIFICATE
+            </div>
+
+            <div class="tc-details">
+                <ol>
+                    <li><strong>TC No: {{ tc.tc_no }}</strong></li>
+                    <li><span class="field-label">1. Name of the Student</span><span class="field-colon">:</span><span class="field-value">{{ tc.student.stud_name }}</span></li>
+                    <li><span class="field-label">2. Date of Birth</span><span class="field-colon">:</span><span class="field-value">{{ tc.dob|date:"d.m.Y" }}</span></li>
+                    <li><span class="field-label">3. Admission No</span><span class="field-colon">:</span><span class="field-value">{{ tc.admission_no }}</span></li>
+                    <li><span class="field-label">4. Date of Admission</span><span class="field-colon">:</span><span class="field-value">{{ tc.date_of_admission|date:"d.m.Y" }}</span></li>
+                    <li><span class="field-label">5. Date of Leaving</span><span class="field-colon">:</span><span class="field-value">{{ tc.date_of_leaving|date:"d.m.Y" }}</span></li>
+                    <li><span class="field-label">6. Programme</span><span class="field-colon">:</span><span class="field-value">{{ tc.student.program.program_name }}</span></li>
+                    <li><span class="field-label">7. Mode of Study</span><span class="field-colon">:</span><span class="field-value">{{ tc.mode_of_study }}</span></li>
+                    <li><span class="field-label">8. Details of Last Exam Attended</span></li>
+                    <ul class="roman-list">
+                        <li><span class="roman-label">i. Name of the University</span><span class="roman-colon">:</span><span class="roman-value">{{ tc.details_of_exam }}</span></li>
+                        <li><span class="roman-label">ii. Register No</span><span class="roman-colon">:</span><span class="roman-value">{{ tc.reg_no }}</span></li>
+                        <li><span class="roman-label">iii. Month & Year of Last Exam</span><span class="roman-colon">:</span><span class="roman-value">{{ tc.month_year }}</span></li>
+                    </ul>
+                    <li><span class="field-label">9. Scholarship/e-Grantz Availing</span><span class="field-colon">:</span><span class="field-value">{{ tc.scholarship }}</span></li>
+                    <li><span class="field-label">10. Reason for Leaving</span><span class="field-colon">:</span><span class="field-value">{{ tc.reason }}</span></li>
+                    <li><span class="field-label">11. Conduct</span><span class="field-colon">:</span><span class="field-value">{{ tc.general_conduct }}</span></li>
+                    <li><span class="field-label">12. Date of Application for TC</span><span class="field-colon">:</span><span class="field-value">{{ tc.date_of_application|date:"d.m.Y" }}</span></li>
+                    <li><span class="field-label">13. Date of Issue of TC</span><span class="field-colon">:</span><span class="field-value">{{ tc.date_of_issuing_tc|date:"d.m.Y" }}</span></li>
+                    <li><span class="field-label">14. Dues Cleared</span><span class="field-colon">:</span><span class="field-value">{{ tc.dues_cleared }}</span></li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="footer-img">
+            <img src="{% static 'admission/images/TCFoot.png' %}" alt="Footer Image">
+        </div>
+
+    </div>
 </div>
 
-<div class="tc-header">
-    TRANSFER CERTIFICATE<br>
-</div>
-
-<div class="tc-details">
-    <ol>
-        <li><strong>TC NO. {{ tc.tc_no }}</strong></li>
-        <li><span class="field-label">1. Name of the Student</span><span class="field-colon">:</span><span class="field-value">{{ tc.student.stud_name }}</span></li>
-        <li><span class="field-label">2. Date of Birth</span><span class="field-colon">:</span><span class="field-value">{{ tc.dob }}</span></li>
-        <li><span class="field-label">3. Admission No</span><span class="field-colon">:</span><span class="field-value">{{ tc.admission_no }}</span></li>
-        <li><span class="field-label">4. Date of Admission</span><span class="field-colon">:</span><span class="field-value">{{ tc.date_of_admission }}</span></li>
-        <li><span class="field-label">5. Date of Leaving</span><span class="field-colon">:</span><span class="field-value">{{ tc.date_of_leaving }}</span></li>
-        <li><span class="field-label">6. Programme</span><span class="field-colon">:</span><span class="field-value">{{ tc.student.program.program_name }}</span></li>
-        <li><span class="field-label">7. Mode of Study</span><span class="field-colon">:</span><span class="field-value">{{ tc.mode_of_study }}</span></li>
-        <li><span class="field-label">8. Details of Last Exam Attended:</span></li>
-        <ol type="I" style="margin-left: 30px; margin-top: 5px;">
-            <li style="margin-bottom: 5px;">
-                <span class="field-label" style="padding-left: 10px;">i. Name of the University</span>
-                <span class="field-colon">:</span>
-                <span class="field-value">{{ tc.details_of_exam }}</span>
-            </li>
-            <li style="margin-bottom: 5px;">
-                <span class="field-label" style="padding-left: 10px;">ii. Register No</span>
-                <span class="field-colon">:</span>
-                <span class="field-value">{{ tc.reg_no }}</span>
-            </li>
-            <li>
-                <span class="field-label" style="padding-left: 10px;">iii. Month and Year</span>
-                <span class="field-colon">:</span>
-                <span class="field-value">{{ tc.month_year }}</span>
-            </li>
-        </ol>
-        <li><span class="field-label">9. Dues Cleared?</span><span class="field-colon">:</span><span class="field-value">{{ tc.dues_cleared }}</span></li>
-        <li><span class="field-label">10. Scholarship / Fee Concession</span><span class="field-colon">:</span><span class="field-value">{{ tc.scholarship }}</span></li>
-        <li><span class="field-label">11. Reason for Issuing TC</span><span class="field-colon">:</span><span class="field-value">{{ tc.reason }}</span></li>
-        <li><span class="field-label">12. General Conduct</span><span class="field-colon">:</span><span class="field-value">{{ tc.general_conduct }}</span></li>
-        <li><span class="field-label">13. Date of Application</span><span class="field-colon">:</span><span class="field-value">{{ tc.date_of_application }}</span></li>
-        <li><span class="field-label">14. Date of Issue</span><span class="field-colon">:</span><span class="field-value">{{ tc.date_of_issuing_tc }}</span></li>
-    </ol>
-</div>
-
-<div class="footer-img">
-    <img src="{% static 'admission/images/TCFoot.png' %}" alt="Footer Image">
-</div>
-
-<div class="print-btn">
-    <button onclick="window.print()">🖨️ Print TC</button>
-</div>
+<button class="print-btn" onclick="window.print()">🖨️ Print Certificate</button>
 
 </body>
 </html>

@@ -2,10 +2,30 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2 class="text-center">Manage Scholarships</h2>
-    <div class="d-flex justify-content-center mt-4">
-        <a href="{% url 'scholarship_details' %}" class="btn btn-primary mx-3">Scholarship Details</a>
-        <a href="{% url 'student_scholarships' %}" class="btn btn-success mx-3">Student Scholarship</a>
+    <h2 class="text-center mb-4">Manage Scholarships</h2>
+    
+    <div class="row justify-content-center">
+        <!-- Scholarship Details Box -->
+        <div class="col-md-6 col-lg-4 mb-3">
+            <div class="card shadow-sm border-0 rounded">
+                <div class="card-body text-center">
+                    <h5 class="card-title" style="color: #007bff;">Scholarship Details</h5>
+                    <p class="card-text text-muted">Add, edit, or delete scholarships available in the system.</p>
+                    <a href="{% url 'scholarship_details' %}" class="btn btn-primary">Go to Scholarship Details</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Student Scholarship Box -->
+        <div class="col-md-6 col-lg-4 mb-3">
+            <div class="card shadow-sm border-0 rounded">
+                <div class="card-body text-center">
+                    <h5 class="card-title" style="color: #28a745;">Student Scholarship</h5>
+                    <p class="card-text text-muted">Assign scholarships to students and manage scholarship amounts.</p>
+                    <a href="{% url 'student_scholarships' %}" class="btn btn-success">Go to Student Scholarships</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
