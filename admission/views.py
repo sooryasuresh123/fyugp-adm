@@ -65,22 +65,37 @@ def student_dashboard(request):
 def office_admin_dashboard(request):
     """Dashboard view for office admins (Teachers)."""
     if request.user.is_superuser:
-        return redirect('principal_dashboard')  # Redirect to principal if a superuser
+        return redirect('principal_dashboard')
 
-    try:
-        office_admin =  request.user  # Assuming Teacher is for office admins
-        return render(request, 'dashboard_office_admin.html', {'office_admin': office_admin})
-    except User.DoesNotExist:
+    # Check if user belongs to 'office' group
+    is_office = request.user.groups.filter(name='office').exists()
+    is_hod = request.user.groups.filter(name='hod').exists()
+
+    if not is_office:
         return render(request, 'error.html', {'message': 'Unauthorized access.'})
+
+    return render(request, 'dashboard_office_admin.html', {
+        'is_office': is_office,
+        'is_hod': is_hod,
+        'office_admin': request.user,
+    })
+
 
 @login_required
 def principal_dashboard(request):
     """Dashboard view for the principal."""
-    if request.user.is_superuser:
-        return render(request, 'dashboard_principal.html')
+    is_superuser = request.user.is_superuser
+    is_office = request.user.groups.filter(name='office').exists()
+    is_hod = request.user.groups.filter(name='HOD').exists()
+
+    if is_superuser:
+        return render(request, 'dashboard_principal.html', {
+            'is_superuser': is_superuser,
+            'is_office': is_office,
+            'is_hod': is_hod,
+        })
     else:
         return render(request, 'error.html', {'message': 'Unauthorized access.'})
-    
 
 '''
 def index(request):
@@ -102,28 +117,36 @@ def index(request):
         return redirect('login')
 '''
 
+@login_required
+def hod_dashboard(request):
+    is_hod = request.user.groups.filter(name='hod').exists()
+    if not is_hod:
+        return render(request, 'error.html', {'message': 'Unauthorized access.'})
+
+    return render(request, 'dashboard_hod.html', {
+        'is_hod': is_hod,
+        'hod': request.user,
+    })
+
 def index(request):
     """Redirect users to their respective dashboards after login based on group membership."""
     if request.user.is_authenticated:
-        # Get the user's group
         user_groups = request.user.groups.all()
 
         if user_groups.exists():
-            # Check if the user is in a specific group and redirect accordingly
             if request.user.groups.filter(name='admin').exists():
                 return redirect('principal_dashboard')
             elif request.user.groups.filter(name='office').exists():
                 return redirect('office_admin_dashboard')
             elif request.user.groups.filter(name='principal').exists():
                 return redirect('principal_dashboard')
+            elif request.user.groups.filter(name='hod').exists():   # ✅ NEW LINE
+                return redirect('hod_dashboard')  # ✅ REDIRECT TO HOD DASHBOARD
             else:
-                # If user is in an unknown group
                 return render(request, 'error.html', {'message': 'Unauthorized access. No valid group found.'})
         else:
-            # User is not part of any group
             return render(request, 'error.html', {'message': 'Unauthorized access. User not in any group.'})
     else:
-        # If the user is not authenticated, redirect to login
         return redirect('login')
 
 def manage_department(request):

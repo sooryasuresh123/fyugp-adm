@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Welcome  {{ hod.username }}</h2>
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: #F9F9F9;
+    }
+    .card {
+        transition: 0.3s;
+    }
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="text-center">
+                <h2 class="fw-bold" style="color: #333;">Welcome to Admission Management</h2>
+                <p class="text-muted">Effortlessly manage departments, programs, and students.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <!-- Manage Students -->
+        <div class="col-md-6 col-lg-4 mb-3">
+            <div class="card shadow-sm border-0 rounded">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-primary">Manage Students</h5>
+                    <p class="card-text text-muted">Add, update, or view student records easily.</p>
+                    <a href="{% url 'manage_student' %}" class="btn btn-primary">Go to Students</a>
+                </div>
+            </div>
+        </div>
+
+     
+
+      
+
+         <div class="col-md-6 col-lg-4 mb-3">
+            <div class="card shadow-sm border-0 rounded">
+                <div class="card-body text-center">
+                    <h5 class="card-title" style="color: #008B8B;">Manage Documents</h5>  <!-- Dark orange color -->
+                    <p class="card-text text-muted">Manage documents, upload, and view them..</p>
+                    <a href="{% url 'manage_documents' %}" class="btn" style="background-color: #008B8B; color: white;">Go to Documents</a>
+                </div>
+            </div>
+        </div> 
+        
+        
+        
+        
+
+    </div>
+</div>
+{% endblock %}

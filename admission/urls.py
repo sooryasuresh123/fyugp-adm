@@ -14,6 +14,8 @@ urlpatterns = [
     # path('course-certificate/', views.course_certificate, name='course_certificate'),
     path('office-admin-dashboard/', views.office_admin_dashboard, name='office_admin_dashboard'),
     path('principal-dashboard/', views.principal_dashboard, name='principal_dashboard'),
+    path('hod_dashboard/', views.hod_dashboard, name='hod_dashboard'),
+
     
     path('manage_department',views.manage_department,name='manage_department'),
     path('add_department',views.add_department,name='add_department'),
