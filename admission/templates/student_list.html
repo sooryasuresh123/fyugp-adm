@@ -1,13 +1,135 @@
 {% extends 'base.html' %}
-{% block content %}
 
-<div class="container mt-4">
-    <h2 class="text-center">Student List</h2>
+{% block content %}
+<style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f4f7fb;
+        color: #555;
+    }
+
+    .container {
+        margin-top: 40px;
+        max-width: 100%;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 30px;
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #34495e;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: border-color 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-weight: 600;
+        border-radius: 30px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+        background-color:rgb(5, 96, 156);
+        border-color:rgb(16, 103, 160);
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #2980b9;
+        border-color: #3498db;
+        transform: translateY(-2px);
+    }
+
+    .table {
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+        border-collapse: separate;
+        width: 100%;
+        margin-top: 30px;
+    }
+
+    .table th, .table td {
+        padding: 15px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .table th {
+        background-color: #34495e;
+        color: white;
+        font-weight: 700;
+    }
+
+    .table tbody tr {
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f1f1f1;
+        transform: translateY(-2px);
+    }
+
+    .table a {
+        font-weight: 600;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 20px;
+        transition: all 0.3s ease;
+    }
+
+    .table a:hover {
+        background-color: #1abc9c;
+        transform: scale(1.05);
+    }
+
+    .filter-form .form-control {
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .filter-form button {
+        background-color: #2ecc71;
+        border-color: #27ae60;
+        font-weight: 600;
+        border-radius: 25px;
+        transition: background-color 0.3s ease;
+    }
+
+    .filter-form button:hover {
+        background-color: #27ae60;
+        border-color: #2ecc71;
+    }
+</style>
+
+<div class="container">
+    <h2>Student List</h2>
 
     <!-- Filter Form -->
-    <form method="GET" class="row g-3">
+    <form method="GET" class="filter-form row g-3">
         <div class="col-md-4">
-            <label class="form-label fw-bold">Program</label>
+            <label class="form-label">Program</label>
             <select name="program" class="form-control">
                 <option value="">Search By</option>
                 {% for program in programs %}
@@ -19,7 +141,7 @@
         </div>
     
         <div class="col-md-4">
-            <label class="form-label fw-bold">Admission Number:</label>
+            <label class="form-label">Admission Number:</label>
             <select name="stud_adm_no" class="form-control">
                 <option value="">Search By</option>
                 {% for adm_no in admission_numbers %}
@@ -29,21 +151,24 @@
                 {% endfor %}
             </select>
         </div>
-            <div class="col-md-3">
-                <label>Year of Admission</label>
-                <input type="number" name="year_of_admission" class="form-control" value="{{ request.GET.year_of_admission }}">
-            </div>
-            <div class="col-md-4">
-                <label class="form-label fw-bold">TC Status</label>
-                <select name="tc_status" class="form-control">
-                    <option value=""> Select TC Status</option>
-                    <option value="include" {% if request.GET.tc_status == "include" %}selected{% endif %}>Include</option>
-                    <option value="exclude" {% if request.GET.tc_status == "exclude" %}selected{% endif %}>Exclude</option>
-                </select>
-            </div>
-            
+        
+        <div class="col-md-3">
+            <label>Year of Admission</label>
+            <input type="number" name="year_of_admission" class="form-control" value="{{ request.GET.year_of_admission }}">
         </div>
-        <button type="submit" class="btn btn-primary mt-3">Search</button>
+        
+        <div class="col-md-4">
+            <label class="form-label">TC Status</label>
+            <select name="tc_status" class="form-control">
+                <option value="">Select TC Status</option>
+                <option value="include" {% if request.GET.tc_status == "include" %}selected{% endif %}>Include</option>
+                <option value="exclude" {% if request.GET.tc_status == "exclude" %}selected{% endif %}>Exclude</option>
+            </select>
+        </div>
+        
+        <div class="col-12 text-center mt-3">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
     </form>
 
     <!-- Sorted Student List -->

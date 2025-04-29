@@ -61,11 +61,7 @@ def validate_file_size(value):
     limit = 50* 1024 * 1024  # 50KB
     if value.size > limit:
         raise ValidationError("File size should not exceed 50KB.")
-class Teacher(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE,null=True,default=None)
-    
-    def __str__(self):
-        return self.user.username
+
 
 
 class Board(models.Model):
@@ -80,15 +76,7 @@ class Reason(models.Model):
     def __str__(self):
         return self.reason_description  
 
-# class TransferCertificate(models.Model):
-#     tc_no = models.CharField(max_length=50, unique=True)
-#     stud = models.ForeignKey('admission.Student', on_delete=models.CASCADE)  # Assuming 'student' is your app name
-#     date_of_application = models.DateField()
-#     date_of_issue = models.DateField(null=True, blank=True)
-#     reason = models.ForeignKey(Reason, on_delete=models.SET_NULL, null=True)
 
-#     def __str__(self):
-#         return f"TC {self.tc_no} - {self.stud}"
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE,null=True,default=None)
@@ -126,15 +114,10 @@ class Student(models.Model):
     identification_mark = models.TextField(blank=True, null=True)
 
     year_of_admission = models.IntegerField(default=2025)
+    
 
     
-    from django.core.validators import FileExtensionValidator
-    photo = models.ImageField(
-        upload_to='student_photos/', 
-        blank=True, 
-        null=True, 
-        validators=[FileExtensionValidator(['jpg', 'jpeg', 'png'])]
-    )
+  
    
     def save(self, *args, **kwargs):
         # If student does not have an associated user, create one

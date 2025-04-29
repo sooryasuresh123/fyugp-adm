@@ -3,13 +3,101 @@
 {% block title %}Add Scholarship{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2>Add Scholarship</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-success">Save</button>
-        <a href="{% url 'manage_scholarships' %}" class="btn btn-secondary">Cancel</a>
-    </form>
+<style>
+    .form-label {
+        color: #444;
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        padding: 0.75rem;
+        font-size: 1rem;
+        background-color: #fdfdfd;
+        border: 1px solid #ccc;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #1e3a5f;
+        box-shadow: 0 0 5px rgba(30, 58, 95, 0.2);
+    }
+
+    .btn-success {
+        background-color: #4CAF50;
+        color: white;
+        border-radius: 30px;
+        padding: 0.6rem 1.5rem;
+        font-weight: 600;
+    }
+
+    .btn-success:hover {
+        background-color: #45a049;
+    }
+
+    .btn-secondary {
+        border-radius: 30px;
+        padding: 0.6rem 1.5rem;
+        font-weight: 600;
+    }
+
+    .card {
+        border-radius: 20px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+    }
+
+    .card-body {
+        padding: 3rem;
+    }
+
+    .container {
+        max-width: 700px;
+        margin-top: 3rem;
+    }
+
+    .heading {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #1e3a5f;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+</style>
+
+<div class="container">
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <h2 class="heading">Add Scholarship</h2>
+            <form method="post" novalidate>
+                {% csrf_token %}
+
+                <!-- Name -->
+                <div class="form-group mb-4">
+                    <label for="{{ form.name.id_for_label }}" class="form-label">{{ form.name.label }}</label>
+                    {{ form.name }}
+                    {% if form.name.errors %}
+                        <div class="text-danger mt-1">{{ form.name.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Scholarship Type -->
+                <div class="form-group mb-4">
+                    <label for="{{ form.scholarship_type.id_for_label }}" class="form-label">{{ form.scholarship_type.label }}</label>
+                    {{ form.scholarship_type }}
+                    {% if form.scholarship_type.errors %}
+                        <div class="text-danger mt-1">{{ form.scholarship_type.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-success">Save</button>
+                    <a href="{% url 'manage_scholarships' %}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}

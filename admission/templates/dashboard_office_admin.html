@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Welcome, {{ office_admin.username }}</h2>
 <style>
     body {
         font-family: 'Poppins', sans-serif;
@@ -8,10 +7,20 @@
     }
     .card {
         transition: 0.3s;
+        background-color: #f1f1f1; /* darker than #F9F9F9 */
+        border-radius: 20px; /* more curvy edges */
+        border: none;
     }
     .card:hover {
         transform: scale(1.05);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    }
+    .enhanced-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #333;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        margin-bottom: 20px;
     }
 </style>
 
@@ -19,71 +28,67 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="text-center">
-                <h2 class="fw-bold" style="color: #333;">Welcome to Admission Management</h2>
-                <p class="text-muted">Effortlessly manage departments, programs, and students.</p>
+                <h2 class="enhanced-title">Admission Management System</h2>
             </div>
         </div>
     </div>
 
     <div class="row mt-4">
         <!-- Manage Students -->
-        <div class="col-md-6 col-lg-4 mb-3">
-            <div class="card shadow-sm border-0 rounded">
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card shadow-sm">
                 <div class="card-body text-center">
                     <h5 class="card-title text-primary">Manage Students</h5>
                     <p class="card-text text-muted">Add, update, or view student records easily.</p>
-                    <a href="{% url 'manage_student' %}" class="btn btn-primary">Go to Students</a>
+                    <a href="{% url 'manage_student' %}" class="btn btn-primary rounded-pill">Go to Students</a>
                 </div>
             </div>
         </div>
 
+     
         <!-- Manage Scholarships -->
-        <div class="col-md-6 col-lg-4 mb-3">
-            <div class="card shadow-sm border-0 rounded">
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card shadow-sm">
                 <div class="card-body text-center">
                     <h5 class="card-title text-danger">Manage Scholarships</h5>
                     <p class="card-text text-muted">Review and assign scholarship opportunities.</p>
-                    <a href="{% url 'manage_scholarships' %}" class="btn btn-danger">Go to Scholarships</a>
+                    <a href="{% url 'manage_scholarships' %}" class="btn btn-danger rounded-pill">Go to Scholarships</a>
                 </div>
             </div>
         </div>
 
         <!-- Manage TC -->
-        <div class="col-md-6 col-lg-4 mb-3">
-            <div class="card shadow-sm border-0 rounded">
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card shadow-sm">
                 <div class="card-body text-center">
-                    <h5 class="card-title"style="color: #6a0dad;">Manage TC</h5>
+                    <h5 class="card-title" style="color: #6a0dad;">Manage TC</h5>
                     <p class="card-text text-muted">Transfer Certificate.</p>
-                    <a href="{% url 'manage_tc' %}" class="btn" style="background-color: #6a0dad; color: white;">Go to TC</a>
+                    <a href="{% url 'manage_tc' %}" class="btn" style="background-color: #6a0dad; color: white; border-radius: 20px;">Go to TC</a>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-6 col-lg-4 mb-3">
-            <div class="card shadow border-0 rounded" style="background: linear-gradient(to right, #ffecd2, #fcb69f);">
+        <!-- Manage Course Certificate -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card shadow-sm">
                 <div class="card-body text-center">
-                    <h5 class="card-title" style="color:rgb(68, 38, 9)"> Course Certificate</h5>
+                    <h5 class="card-title" style="color:rgb(68, 38, 9)">Manage Course Certificate</h5>
                     <p class="card-text text-muted">Upload, generate, and view course certificates with ease.</p>
-                    <a href="{% url 'manage_cc' %}" class="btn" style="background-color:rgb(95, 62, 11); color: white; font-weight: 500; box-shadow: 0 4px 10px rgba(90, 57, 13, 0.3); border-radius: 25px;">Go to Certificate</a>
-
+                    <a href="{% url 'manage_cc' %}" class="btn" style="background-color:rgb(95, 62, 11); color: white; font-weight: 500; border-radius: 25px;">Go to Certificate</a>
                 </div>
             </div>
         </div>
-        
 
-         <div class="col-md-6 col-lg-4 mb-3">
-            <div class="card shadow-sm border-0 rounded">
+        <!-- Manage Documents -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card shadow-sm">
                 <div class="card-body text-center">
-                    <h5 class="card-title" style="color: #008B8B;">Manage Documents</h5>  <!-- Dark orange color -->
-                    <p class="card-text text-muted">Manage documents, upload, and view them..</p>
-                    <a href="{% url 'manage_documents' %}" class="btn" style="background-color: #008B8B; color: white;">Go to Documents</a>
+                    <h5 class="card-title" style="color: #008B8B;">Manage Documents</h5>
+                    <p class="card-text text-muted">Manage documents, upload, and view them.</p>
+                    <a href="{% url 'manage_documents' %}" class="btn" style="background-color: #008B8B; color: white; border-radius: 20px;">Go to Documents</a>
                 </div>
             </div>
-        </div> 
-        
-        
-        
-        
+        </div>
 
     </div>
 </div>

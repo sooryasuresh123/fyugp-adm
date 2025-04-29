@@ -94,8 +94,10 @@
 
 <div class="form-wrapper">
     <div class="form-container">
-        <h2>Issue Transfer Certificate</h2>
-        <form method="POST">
+        <h2 class="text-center fw-bold my-4" style="font-size: 2rem; color: #1e3a5f; letter-spacing: 1px;">
+            📄 Issue Transfer Certificate
+        </h2>
+                <form method="POST">
             {% csrf_token %}
             
             <label for="tc_no">TC No:</label>
@@ -122,8 +124,10 @@
             <label for="mode_of_study">Mode of Study:</label>
             <input type="text" name="mode_of_study" value="Regular" readonly>
 
-            <label for="university">Details of the Examination Last Attended</label>
-            <label>Name Of University:</label>
+            <label for="university" class="form-label fw-semibold" style="color: #1e3a5f; font-size: 1.1rem;">
+                🏛️ Details of the Examination Last Attended
+            </label>
+                        <label>Name Of University:</label>
             <input type="text" value="Kannur University" readonly>
 
             <label for="reg_no">Register No:</label>

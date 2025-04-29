@@ -1,19 +1,46 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2 class="text-center">Add Department</h2>
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <form method="post">
-                {% csrf_token %}
-                <div class="mb-3">
-                    {{ form.dept_name.label_tag }}
-                    {{ form.dept_name }}
+<style>
+    .btn-navy {
+        background-color: #002B5B;
+        color: white;
+    }
+
+    .btn-navy:hover {
+        background-color: #001d3a;
+        color: white;
+    }
+
+    .text-navy {
+        color: #002B5B;
+    }
+
+    .form-control:focus {
+        border-color: #002B5B;
+        box-shadow: 0 0 0 0.2rem rgba(0, 43, 91, 0.25);
+    }
+</style>
+
+<div class="container py-5">
+    <div class="card shadow-lg rounded-4 border-0">
+        <div class="card-body px-5 py-4">
+            <h2 class="text-center mb-4 text-navy fw-bold">Add Department</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        <div class="form-floating mb-4">
+                            {{ form.dept_name }}
+                            <label for="{{ form.dept_name.id_for_label }}">{{ form.dept_name.label }}</label>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-navy px-4">Add</button>
+                            <a href="{% url 'manage_department' %}" class="btn btn-outline-secondary px-4">Cancel</a>
+                        </div>
+                    </form>
                 </div>
-                <button type="submit" class="btn btn-success">Add</button>
-                <a href="{% url 'manage_department' %}" class="btn btn-secondary">Cancel</a>
-            </form>
+            </div>
         </div>
     </div>
 </div>

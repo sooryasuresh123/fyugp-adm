@@ -1,214 +1,213 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<style>
+    .section-title {
+        color: #0d3b66; /* Navy blue */
+        font-weight: 700;
+        font-size: 1.3rem;
+        border-left: 4px solid #0d3b66;
+        padding-left: 10px;
+        margin-top: 30px;
+        margin-bottom: 10px;
+    }
+
+    .form-label {
+        font-weight: 500;
+    }
+
+    .form-control,
+    .form-select {
+        border-radius: 0.4rem;
+    }
+
+    .card {
+        border-radius: 1rem;
+    }
+
+    .form-section {
+        margin-bottom: 2rem;
+    }
+</style>
+
 <div class="container mt-4">
-    <h2 class="text-center">Edit Student</h2>
+    <div class="card shadow-lg p-4">
+        <h2 class="text-center mb-4 text-primary fw-bold" style="color:#0d3b66 !important;">Edit Student</h2>
 
-    <form method="POST" enctype="multipart/form-data" class="mt-3">
-        {% csrf_token %}
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            <strong>Errors:</strong>
+            <ul>
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <li>{{ field|title }}: {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
 
-        <div class="row">
-            <!-- Personal Information -->
-            <h4 class="mt-3 mb-3"><strong>Personal Information</strong></h4>
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Student Name</label>
-                {{ form.stud_name }}
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Date of Birth</label>
-                {{ form.dob }}
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Aadhaar Number</label>
-                {{ form.aadhaar }}
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">ABC ID</label>
-                {{ form.abc_id }}
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Gender</label>
-                {{ form.gender }}
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Blood Group</label>
-                {{ form.blood_group }}
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Language</label>
-                {{ form.language }}
-            </div>
-            <div class="col-md-12 mb-3">
-                <label class="form-label fw-bold">Identification Mark</label>
-                {{ form.identification_mark }}
-            </div>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
 
-            <!-- Admission Details -->
-            <h4 class="mt-3 mb-3"><strong>Admission Details</strong></h4>
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Admission Number</label>
-                {{ form.stud_adm_no }}
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Registration Number</label>
-                {{ form.stud_reg_no }}
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Roll Number</label>
-                {{ form.stud_roll_no }}
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Date of Joining</label>
-                {{ form.date_of_joining }}
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Program</label>
-                {{ form.program }}
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Year of Admission</label>
-                {{ form.year_of_admission}}
+            <!-- Personal Details -->
+            <div class="form-section">
+                <div class="section-title">Personal Details</div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Student Name</label>
+                        {{ form.stud_name }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Admission No</label>
+                        {{ form.stud_adm_no }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Roll No</label>
+                        {{ form.stud_roll_no }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Aadhaar No</label>
+                        {{ form.aadhaar }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Email</label>
+                        {{ form.email }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Phone</label>
+                        {{ form.phone }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Date of Birth</label>
+                        {{ form.dob }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Gender</label>
+                        {{ form.gender }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Blood Group</label>
+                        {{ form.blood_group }}
+                    </div>
+                </div>
             </div>
 
-
-            <!-- Contact Information -->
-            <h4 class="mt-3 mb-3"><strong>Contact Information</strong></h4>
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Email</label>
-                {{ form.email }}
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Phone</label>
-                {{ form.phone }}
-            </div>
-
-            <!-- Parent Information -->
-            <h4 class="mt-3 mb-3"><strong>Parent Information</strong></h4>
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Parent Name</label>
-                {{ form.parent_name }}
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Parent Mobile</label>
-                {{ form.parent_mob }}
-            </div>
-
-            <!-- Address Details -->
-            <h4 class="mt-3 mb-3"><strong>Address Details</strong></h4>
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">House Name</label>
-                {{ form.house_name }}
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Post</label>
-                {{ form.post }}
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">District</label>
-                {{ form.district }}
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">State</label>
-                {{ form.state }}
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Pincode</label>
-                {{ form.pincode }}
+            <!-- Parent & Address -->
+            <div class="form-section">
+                <div class="section-title">Parent & Address Details</div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Parent Name</label>
+                        {{ form.parent_name }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Parent Mobile</label>
+                        {{ form.parent_mob }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">House Name</label>
+                        {{ form.house_name }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Post</label>
+                        {{ form.post }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">District</label>
+                        {{ form.district }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">State</label>
+                        {{ form.state }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Pincode</label>
+                        {{ form.pincode }}
+                    </div>
+                </div>
             </div>
 
-            <!-- Caste & Quota Details -->
-            <h4 class="mt-3 mb-3"><strong>Caste & Quota Details</strong></h4>
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Religion</label>
-                {{ form.religion }}
-            </div>
-           
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Caste</label>
-                {{ form.caste }}
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Quota</label>
-                {{ form.quota }}
-        
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Category</label>
-                {{ form.category }}
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Board</label>
-                {{ form.board }}
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Normalized Mark</label>
-                {{ form.normalized_mark }}
-            </div>
-            
-
-            <!-- Financial Details -->
-            <h4 class="mt-3 mb-3"><strong>Financial Details</strong></h4>
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Income</label>
-                {{ form.income }}
-            </div>
-            <div class="col-md-6 mb-3 form-check">
-                <label class="form-check-label fw-bold">E-Grantz</label>
-                {{ form.egrantz }}
-            </div>
-            <div class="col-md-6 mb-3 form-check">
-                <label class="form-check-label fw-bold">Status</label>
-                {{ form.status }}
+            <!-- Educational -->
+            <div class="form-section">
+                <div class="section-title">Educational Details</div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Program</label>
+                        {{ form.program }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Pathway</label>
+                        {{ form.pathway }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Board</label>
+                        {{ form.board }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Normalized Mark</label>
+                        {{ form.normalized_mark }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Year of Admission</label>
+                        {{ form.year_of_admission }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Date of Joining</label>
+                        {{ form.date_of_joining }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Language</label>
+                        {{ form.language }}
+                    </div>
+                </div>
             </div>
 
-            {% comment %} <!-- Document Uploads -->
-            <h4 class="mt-3 mb-3"><strong>Documents</strong></h4>
-            <div class="col-md-12 mb-3">
-                <label class="form-label fw-bold">Photo</label>
-                {% if student.photo %}
-                    <p>Current File: <a href="{{ student.photo.url }}" target="_blank">View</a></p>
-                {% endif %}
-                {{ form.photo }}
+            <!-- Other -->
+            <div class="form-section">
+                <div class="section-title">Other Details</div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Caste</label>
+                        {{ form.caste }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Religion</label>
+                        {{ form.religion }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Quota</label>
+                        {{ form.quota }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Category</label>
+                        {{ form.category }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Income</label>
+                        {{ form.income }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">E-Grantz</label>
+                        {{ form.egrantz }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Student Status</label>
+                        {{ form.status }}
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label class="form-label">Identification Mark</label>
+                        {{ form.identification_mark }}
+                    </div>
+                </div>
             </div>
-            <div class="col-md-12 mb-3">
-                <label class="form-label fw-bold">Aadhaar Card</label>
-                {% if student.aadhaar_card %}
-                    <p>Current File: <a href="{{ student.aadhaar_card.url }}" target="_blank">View</a></p>
-                {% endif %}
-                {{ form.aadhaar_card }}
-            </div>
-            <div class="col-md-12 mb-3">
-                <label class="form-label fw-bold">Income Certificate</label>
-                {% if student.income_certificate %}
-                    <p>Current File: <a href="{{ student.income_certificate.url }}" target="_blank">View</a></p>
-                {% endif %}
-                {{ form.income_certificate }}
-            </div>
-            <div class="col-md-12 mb-3">
-                <label class="form-label fw-bold">NSS/NCC Certificate</label>
-                {% if student.nss_ncc_certificate %}
-                    <p>Current File: <a href="{{ student.nss_ncc_certificate.url }}" target="_blank">View</a></p>
-                {% endif %}
-                {{ form.nss_ncc_certificate }}
-            </div>
-            <div class="col-md-12 mb-3">
-                <label class="form-label fw-bold">SSLC Certificate</label>
-                {% if student.sslc_certificate %}
-                    <p>Current File: <a href="{{ student.sslc_certificate.url }}" target="_blank">View</a></p>
-                {% endif %}
-                {{ form.sslc_certificate }}
-            </div>
-            <div class="col-md-12 mb-3">
-                <label class="form-label fw-bold">+2 Certificate</label>
-                {% if student.plus_two_certificate %}
-                    <p>Current File: <a href="{{ student.plus_two_certificate.url }}" target="_blank">View</a></p>
-                {% endif %}
-                {{ form.plus_two_certificate }}
-            </div>
-        </div> {% endcomment %}
 
-        <button type="submit" class="btn btn-success">Update</button>
-        <a href="{% url 'manage_student' %}" class="btn btn-secondary">Cancel</a>
-    </form>
+            <!-- Buttons -->
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary px-5">Update</button>
+                <a href="{% url 'manage_student' %}" class="btn btn-outline-danger px-5 ms-3">Cancel</a>
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock %}

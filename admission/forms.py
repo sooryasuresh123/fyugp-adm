@@ -163,9 +163,15 @@ class TransferCertificateForm(forms.ModelForm):
 class ScholarshipForm(forms.ModelForm):
     class Meta:
         model = Scholarship
-        fields = '__all__' 
+        fields = ['name', 'scholarship_type']
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter Scholarship Name'}),
+            'name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter Scholarship Name',
+            }),
+            'scholarship_type': forms.Select(attrs={
+                'class': 'form-control',
+            }),
         }
 
 class StudentScholarshipForm(forms.ModelForm):

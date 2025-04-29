@@ -1,23 +1,136 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2 class="text-center">Add Program</h2>
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <form method="post">
-                {% csrf_token %}
-                <div class="mb-3">
-                    {{ form.program_name.label_tag }}
-                    {{ form.program_name }}
-                    <label for="id_program_level">Program Level:</label>
-                    {{form.program_level}}
-                    <label for="id_department">Department:</label>
-                    {{form.department}}
+<style>
+    /* Color Theme */
+    .btn-navy {
+        background-color: #1e3a5f; /* Darker Navy */
+        color: white;
+    }
+
+    .btn-navy:hover {
+        background-color: #153b61; /* Slightly darker navy */
+        color: white;
+    }
+
+    .btn-success {
+        background-color: #4caf50; /* Fresh Green */
+        color: white;
+    }
+
+    .btn-success:hover {
+        background-color: #45a049;
+        color: white;
+    }
+
+    .btn-outline-secondary {
+        border-color: #ccc;
+        color: #555;
+    }
+
+    .btn-outline-secondary:hover {
+        background-color: #f8f9fa;
+        color: #333;
+    }
+
+    /* Input Styling */
+    .form-control, .form-select {
+        border-radius: 10px;
+        padding: 0.8rem;
+        font-size: 1rem;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        transition: border 0.3s, box-shadow 0.3s;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: #1e3a5f;
+        box-shadow: 0 0 5px rgba(30, 58, 95, 0.2);
+    }
+
+    /* Form Label Styling */
+    .form-label {
+        color: #555;
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Form Group */
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    /* Button Styling */
+    .btn {
+        border-radius: 30px;
+        padding: 0.8rem 2rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+    /* Card Styling */
+    .card {
+        border-radius: 20px;
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+    }
+
+    .card-body {
+        padding: 3rem 4rem;
+    }
+
+    /* Container Styling */
+    .container {
+        max-width: 900px;
+        padding: 3rem 0;
+    }
+
+    /* Header Styling */
+    .heading {
+        font-family: 'Helvetica', sans-serif;
+        font-weight: bold;
+        color: #1e3a5f;
+        font-size: 2rem;
+        margin-bottom: 30px;
+    }
+</style>
+
+<div class="container py-5">
+    <div class="card shadow-lg rounded-4 border-0">
+        <div class="card-body px-5 py-4">
+            <h2 class="text-center mb-4 heading">Add Program</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        
+                        <!-- Program Name -->
+                        <div class="form-group">
+                            <label for="{{ form.program_name.id_for_label }}" class="form-label">{{ form.program_name.label }}</label>
+                            {{ form.program_name }}
+                        </div>
+
+                        <!-- Program Level -->
+                        <div class="form-group">
+                            <label for="{{ form.program_level.id_for_label }}" class="form-label">Program Level</label>
+                            {{ form.program_level }}
+                        </div>
+
+                        <!-- Department -->
+                        <div class="form-group">
+                            <label for="{{ form.department.id_for_label }}" class="form-label">Department</label>
+                            {{ form.department }}
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-success">Add</button>
+                            <a href="{% url 'manage_program' %}" class="btn btn-outline-secondary">Cancel</a>
+                        </div>
+                    </form>
                 </div>
-                <button type="submit" class="btn btn-success">Add</button>
-                <a href="{% url 'manage_program' %}" class="btn btn-secondary">Cancel</a>
-            </form>
+            </div>
         </div>
     </div>
 </div>

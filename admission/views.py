@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Department,Program,Student,TransferCertificate,Scholarship,StudentScholarship,Teacher
+from .models import Department,Program,Student,TransferCertificate,Scholarship,StudentScholarship
 from .forms import DepartmentForm,ProgramForm,StudentForm, TransferCertificateForm,ScholarshipForm,StudentScholarshipForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
