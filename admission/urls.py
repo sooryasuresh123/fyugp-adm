@@ -64,13 +64,11 @@ urlpatterns = [
     path('print-cc/<int:adm_no>/', views.print_cc, name='print_cc'),
     path('manage-cc/', views.manage_cc, name='manage_cc'),
 
-     path('change-credentials/', views.change_credentials, name='change_credentials'),
+    path('change-credentials/', views.change_credentials, name='change_credentials'),
     path('change-credentials-done/', TemplateView.as_view(template_name='change_credentials_done.html'), name='change_credentials_done'),
-
+    
+ 
 ]
-
-
-
 
 
   

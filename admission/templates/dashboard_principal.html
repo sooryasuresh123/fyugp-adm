@@ -7,9 +7,11 @@
     }
     .card {
         transition: 0.3s;
-        background-color: #f1f1f1; /* darker than #F9F9F9 */
-        border-radius: 20px; /* more curvy edges */
+        background-color: #f1f1f1;
+        border-radius: 20px;
         border: none;
+        overflow: hidden;
+        height: 100%;
     }
     .card:hover {
         transform: scale(1.05);
@@ -21,6 +23,38 @@
         color: #333;
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
         margin-bottom: 20px;
+    }
+    .icon-container {
+        height: 80px;
+        width: 80px;
+        margin: 0 auto 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .icon-container svg {
+        width: 45px;
+        height: 45px;
+    }
+    .card-title {
+        font-weight: 600;
+        margin-top: 10px;
+    }
+    .card-text {
+        font-size: 0.9rem;
+    }
+    .btn {
+        font-weight: 500;
+        padding: 8px 20px;
+        border-radius: 20px;
+        transition: all 0.3s;
+    }
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
 </style>
 
@@ -38,6 +72,11 @@
         <div class="col-md-6 col-lg-4 mb-4">
             <div class="card shadow-sm">
                 <div class="card-body text-center">
+                    <div class="icon-container" style="background-color: rgba(13, 110, 253, 0.1);">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#0d6efd">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                    </div>
                     <h5 class="card-title text-primary">Manage Students</h5>
                     <p class="card-text text-muted">Add, update, or view student records easily.</p>
                     <a href="{% url 'manage_student' %}" class="btn btn-primary rounded-pill">Go to Students</a>
@@ -49,6 +88,11 @@
         <div class="col-md-6 col-lg-4 mb-4">
             <div class="card shadow-sm">
                 <div class="card-body text-center">
+                    <div class="icon-container" style="background-color: rgba(25, 135, 84, 0.1);">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#198754">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                    </div>
                     <h5 class="card-title text-success">Manage Departments</h5>
                     <p class="card-text text-muted">Organize and structure department information.</p>
                     <a href="{% url 'manage_department' %}" class="btn btn-success rounded-pill">Go to Departments</a>
@@ -60,6 +104,11 @@
         <div class="col-md-6 col-lg-4 mb-4">
             <div class="card shadow-sm">
                 <div class="card-body text-center">
+                    <div class="icon-container" style="background-color: rgba(212, 160, 23, 0.1);">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#d4a017">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                    </div>
                     <h5 class="card-title" style="color: #d4a017;">Manage Programs</h5>
                     <p class="card-text text-muted">Handle course programs effectively.</p>
                     <a href="{% url 'manage_program' %}" class="btn" style="background-color: #d4a017; color: white; border-radius: 20px;">Go to Programs</a>
@@ -71,6 +120,11 @@
         <div class="col-md-6 col-lg-4 mb-4">
             <div class="card shadow-sm">
                 <div class="card-body text-center">
+                    <div class="icon-container" style="background-color: rgba(220, 53, 69, 0.1);">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#dc3545">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
                     <h5 class="card-title text-danger">Manage Scholarships</h5>
                     <p class="card-text text-muted">Review and assign scholarship opportunities.</p>
                     <a href="{% url 'manage_scholarships' %}" class="btn btn-danger rounded-pill">Go to Scholarships</a>
@@ -82,6 +136,11 @@
         <div class="col-md-6 col-lg-4 mb-4">
             <div class="card shadow-sm">
                 <div class="card-body text-center">
+                    <div class="icon-container" style="background-color: rgba(106, 13, 173, 0.1);">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#6a0dad">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                    </div>
                     <h5 class="card-title" style="color: #6a0dad;">Manage TC</h5>
                     <p class="card-text text-muted">Transfer Certificate.</p>
                     <a href="{% url 'manage_tc' %}" class="btn" style="background-color: #6a0dad; color: white; border-radius: 20px;">Go to TC</a>
@@ -93,7 +152,12 @@
         <div class="col-md-6 col-lg-4 mb-4">
             <div class="card shadow-sm">
                 <div class="card-body text-center">
-                    <h5 class="card-title" style="color:rgb(68, 38, 9)">Manage Course Certificate</h5>
+                    <div class="icon-container" style="background-color: rgba(95, 62, 11, 0.1);">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="rgb(95, 62, 11)">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                        </svg>
+                    </div>
+                    <h5 class="card-title" style="color:rgb(95, 62, 11)">Manage Course Certificate</h5>
                     <p class="card-text text-muted">Upload, generate, and view course certificates with ease.</p>
                     <a href="{% url 'manage_cc' %}" class="btn" style="background-color:rgb(95, 62, 11); color: white; font-weight: 500; border-radius: 25px;">Go to Certificate</a>
                 </div>
@@ -104,6 +168,11 @@
         <div class="col-md-6 col-lg-4 mb-4">
             <div class="card shadow-sm">
                 <div class="card-body text-center">
+                    <div class="icon-container" style="background-color: rgba(0, 139, 139, 0.1);">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#008B8B">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
+                        </svg>
+                    </div>
                     <h5 class="card-title" style="color: #008B8B;">Manage Documents</h5>
                     <p class="card-text text-muted">Manage documents, upload, and view them.</p>
                     <a href="{% url 'manage_documents' %}" class="btn" style="background-color: #008B8B; color: white; border-radius: 20px;">Go to Documents</a>

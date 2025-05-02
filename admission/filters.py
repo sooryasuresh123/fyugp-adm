@@ -1,5 +1,6 @@
 import django_filters
 from .models import Student, Program  # Import models
+from django import forms
 
 class StudentFilter(django_filters.FilterSet):
     program = django_filters.ModelChoiceFilter(

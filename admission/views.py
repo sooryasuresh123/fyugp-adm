@@ -6,52 +6,27 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login,logout
+from django.contrib import messages
+
+
 
 def student_login(request):
+    if request.user.is_authenticated:
+        return redirect('index')  # Already logged in
+
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
+        username = request.POST.get('username')
+        password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
+
         if user:
             login(request, user)
             return redirect('index')
         else:
             messages.error(request, 'Invalid username or password')
+
     return render(request, 'registration/login.html')
 
-'''def student_login(request):
-    if request.method == "POST":
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-
-        if not email or not password:
-            return render(request, 'registration/login.html', {'error': 'Email and password are required'})
-
-        try:
-            user = User.objects.get(email=email)  # Get user by email
-            print(f"Found user: {user}")  # Debugging
-
-            # Authenticate using email as username and Aadhaar as password
-            user = authenticate(username=user.username, password=password)
-            
-            if user:
-                try:
-                    student = Student.objects.get(user=user)  # Ensure user is a student
-                    login(request, user)
-                    print("Login successful")  # Debugging
-                    return redirect('student_dashboard')  # Redirect to student dashboard
-                except Student.DoesNotExist:
-                    print("Not a student account")  # Debugging
-                    return render(request, 'error.html', {'message': 'Unauthorized access.'})
-            else:
-                print("Invalid credentials")  # Debugging
-                return render(request, 'registration/login.html', {'error': 'Invalid credentials'})
-
-        except User.DoesNotExist:
-            print("Email not found")  # Debugging
-            return render(request, 'registration/login.html', {'error': 'Email not found'})
-
-    return render(request, 'registration/login.html')'''
 @login_required
 def student_dashboard(request):
     try:
@@ -80,6 +55,9 @@ def office_admin_dashboard(request):
         'office_admin': request.user,
     })
 
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
 
 @login_required
 def principal_dashboard(request):
@@ -249,41 +227,6 @@ def delete_student(request, pk):
    return render(request, 'delete_student.html', {'student': student})
 
 
-# def transfer_certificate_list(request):
-#     tc_list = TransferCertificate.objects.all()
-#     return render(request, 'transfer_certificate_list.html', {'tc_list': tc_list})
-
-# def add_transfer_certificate(request):
-#     if request.method == 'POST':
-#         form = TransferCertificateForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('transfer_certificate_list')
-#     else:
-#         form = TransferCertificateForm()
-#     return render(request, 'add_transfer_certificate.html', {'form': form})
-# def edit_transfer_certificate(request, tc_id):
-#     tc = get_object_or_404(TransferCertificate, id=tc_id)
-    
-#     if request.method == 'POST':
-#         form = TransferCertificateForm(request.POST, instance=tc)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, "Transfer Certificate updated successfully!")
-#             return redirect('transfer_certificate_list')  # Redirect to TC list page
-#     else:
-#         form = TransferCertificateForm(instance=tc)
-
-#     return render(request, 'edit_transfer_certificate.html', {'form': form, 'tc': tc})
-# def delete_transfer_certificate(request, tc_id):
-#     tc = get_object_or_404(TransferCertificate, id=tc_id)
-    
-#     if request.method == 'POST':
-#         tc.delete()
-#         messages.success(request, "Transfer Certificate deleted successfully!")
-#         return redirect('transfer_certificate_list')  # Redirect to TC list page
-    
-#     return render(request, 'confirm_delete.html', {'tc': tc})
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.timezone import now
@@ -542,8 +485,7 @@ def student_detail(request, student_id):
     student = get_object_or_404(Student, id=student_id)
     return render(request, 'student_details.html', {'student': student})
 
-from .models import CourseCertificate,Reason
-from .models import Student
+from .models import Student,CourseCertificate
 from .forms import CourseCertificateForm
 from django.shortcuts import render, redirect
 from django.contrib import messages

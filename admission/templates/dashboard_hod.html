@@ -4,19 +4,13 @@
     body {
         font-family: 'Poppins', sans-serif;
         background: #F9F9F9;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .container {
-        max-width: 900px;
     }
     .card {
         transition: 0.3s;
         background-color: #f1f1f1;
         border-radius: 20px;
         border: none;
+        overflow: hidden;
         height: 100%;
     }
     .card:hover {
@@ -28,49 +22,83 @@
         font-weight: 700;
         color: #333;
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-        margin-bottom: 50px;
+        margin-bottom: 20px;
     }
-    .btn-custom {
-        background-color: #008B8B;
-        color: white;
-        border-radius: 20px;
-    }
-    .row-equal-height {
+    .icon-container {
+        height: 80px;
+        width: 80px;
+        margin: 0 auto 15px;
         display: flex;
-        flex-wrap: wrap;
+        align-items: center;
         justify-content: center;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .icon-container svg {
+        width: 45px;
+        height: 45px;
+    }
+    .card-title {
+        font-weight: 600;
+        margin-top: 10px;
+    }
+    .card-text {
+        font-size: 0.9rem;
+    }
+    .btn {
+        font-weight: 500;
+        padding: 8px 20px;
+        border-radius: 20px;
+        transition: all 0.3s;
+    }
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
 </style>
 
-<div class="container">
-    <div class="text-center">
-        <h2 class="enhanced-title">Admission Management System</h2>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="text-center">
+                <h2 class="enhanced-title">Admission Management System</h2>
+            </div>
+        </div>
     </div>
 
-    
-
-    <div class="row row-equal-height">
+    <div class="row mt-4">
         <!-- Manage Students -->
-        <div class="col-md-6 col-lg-5 mb-4 d-flex">
-            <div class="card shadow-sm w-100">
-                <div class="card-body text-center d-flex flex-column justify-content-center">
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <div class="icon-container" style="background-color: rgba(13, 110, 253, 0.1);">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#0d6efd">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                    </div>
                     <h5 class="card-title text-primary">Manage Students</h5>
                     <p class="card-text text-muted">Add, update, or view student records easily.</p>
-                    <a href="{% url 'manage_student' %}" class="btn btn-primary rounded-pill mt-auto">Go to Students</a>
+                    <a href="{% url 'manage_student' %}" class="btn btn-primary rounded-pill">Go to Students</a>
+                </div>
+            </div>
+        </div>
+        <!-- Manage Documents -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <div class="icon-container" style="background-color: rgba(0, 139, 139, 0.1);">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#008B8B">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
+                        </svg>
+                    </div>
+                    <h5 class="card-title" style="color: #008B8B;">Manage Documents</h5>
+                    <p class="card-text text-muted">Manage documents, upload, and view them.</p>
+                    <a href="{% url 'manage_documents' %}" class="btn" style="background-color: #008B8B; color: white; border-radius: 20px;">Go to Documents</a>
                 </div>
             </div>
         </div>
 
-        <!-- Manage Documents -->
-        <div class="col-md-6 col-lg-5 mb-4 d-flex">
-            <div class="card shadow-sm w-100">
-                <div class="card-body text-center d-flex flex-column justify-content-center">
-                    <h5 class="card-title" style="color: #008B8B;">Manage Documents</h5>
-                    <p class="card-text text-muted">Manage documents, upload, and view them.</p>
-                    <a href="{% url 'manage_documents' %}" class="btn btn-custom rounded-pill mt-auto">Go to Documents</a>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 {% endblock %}
