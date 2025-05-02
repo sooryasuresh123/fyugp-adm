@@ -366,8 +366,16 @@ def delete_scholarship(request, scholarship_id):
     return redirect('scholarship_details')
 
 def student_scholarships(request):
-    student_scholarships = StudentScholarship.objects.all()
-    return render(request, 'student_scholarships.html', {'student_scholarships': student_scholarships})
+    adm_no = request.GET.get('adm_no', '').strip()  # Get admission number from search form
+    if adm_no:
+        student_scholarships = StudentScholarship.objects.filter(student__stud_adm_no__icontains=adm_no)
+    else:
+        student_scholarships = StudentScholarship.objects.all()
+
+    return render(request, 'student_scholarships.html', {
+        'student_scholarships': student_scholarships,
+        'adm_no': adm_no  # Pass adm_no back to template to keep search value
+    })
 
 # Add Student Scholarship
 def add_student_scholarship(request):
@@ -406,8 +414,16 @@ from .forms import DocumentForm
 
 # List all documents
 def manage_documents(request):
+    adm_no = request.GET.get('adm_no', '').strip()
     documents = Document.objects.all()
-    return render(request, 'manage_documents.html', {'documents': documents})
+    
+    if adm_no:
+        documents = documents.filter(student__stud_adm_no__icontains=adm_no)
+
+    return render(request, 'manage_documents.html', {
+        'documents': documents,
+        'adm_no': adm_no
+    })
 
 # Upload a new document
 def upload_document(request):

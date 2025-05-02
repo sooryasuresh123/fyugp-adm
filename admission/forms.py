@@ -2,6 +2,7 @@ from django import forms
 from .models import Department,Program,Student,TransferCertificate, Caste, Religion, Quota,ProgramLevel,Scholarship, StudentScholarship,Category,User,CourseCertificate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User, Group
+import re
 
 class DepartmentForm(forms.ModelForm):
     class Meta:
@@ -46,8 +47,15 @@ class StudentForm(forms.ModelForm):
 
     def clean_aadhaar(self):
         aadhaar = self.cleaned_data.get("aadhaar")
+        
+        # Format validation
         if len(aadhaar) != 12 or not aadhaar.isdigit():
-            raise forms.ValidationError("Aadhaar number must be 12 digits.")
+            raise forms.ValidationError("Aadhaar number must be exactly 12 digits.")
+        
+        # Uniqueness check (excluding current record on edit)
+        if Student.objects.filter(aadhaar=aadhaar).exclude(pk=self.instance.pk).exists():
+            raise forms.ValidationError("Student with this Aadhaar number already exists.")
+        
         return aadhaar
 
     def clean_pincode(self):
@@ -55,12 +63,30 @@ class StudentForm(forms.ModelForm):
         if len(pincode) != 6 or not pincode.isdigit():
             raise forms.ValidationError("Pincode must be 6 digits.")
         return pincode
-    def clean_photo(self):
-        photo = self.cleaned_data.get('photo')
-        if photo:
-            if not photo.name.lower().endswith(('jpg', 'jpeg', 'png')):
-                raise forms.ValidationError("Only JPG, JPEG, and PNG files are allowed.")
-        return photo
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
+        
+        # Email format check
+        if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+            raise forms.ValidationError("Enter a valid email address.")
+        
+        # Uniqueness check (exclude current record on edit)
+        if Student.objects.filter(email=email).exclude(pk=self.instance.pk).exists():
+            raise forms.ValidationError("Student with this Email ID already exists.")
+        
+        return email
+
+    
+    def clean_phone(self):
+        phone = self.cleaned_data.get("phone")
+        if len(phone) != 10 or not phone.isdigit():
+            raise forms.ValidationError("Phone number must be exactly 10 digits.")
+        return phone
+    def clean_parent_phone(self):
+        parent_mob = self.cleaned_data.get("phone")
+        if len(parent_mob) != 10 or not parent_mob.isdigit():
+            raise forms.ValidationError("Phone number must be exactly 10 digits.")
+        return parent_mob
 from django import forms
 from .models import Document
 

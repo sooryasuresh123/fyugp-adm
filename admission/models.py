@@ -109,7 +109,7 @@ class Student(models.Model):
     egrantz = models.BooleanField(default=False)
     status = models.BooleanField(default=True)  # Active/Inactive
     gender = models.CharField(max_length=10, choices=[('Male', 'Male'), ('Female', 'Female'), ('Other', 'Other')])
-    blood_group = models.CharField(max_length=5, choices=[('A+', 'A+'), ('A-', 'A-'), ('B+', 'B-'), ('O+', 'O-'), ('AB+', 'AB-')])
+    blood_group = models.CharField(max_length=5, choices=[('A+', 'A+'), ('A-', 'A-'), ('B+', 'B+'),('B-', 'B-') ,('O+', 'O+'),('O-', 'O-'), ('AB-', 'AB-'),('AB+', 'AB+')])
     language=models.CharField(max_length=10, choices=[('Malayalam', 'Malayalam'), ('Hindi', 'Hindi')] ,default='Malayalam')
     identification_mark = models.TextField(blank=True, null=True)
 
