@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Main Heading -->
+    <h2 class="text-center mb-4 text-primary fw-bold" style="text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);">
+        Student Profile
+    </h2>
+
+    <div class="row g-4">
+        <!-- Personal Information -->
+        <div class="col-12">
+            <div class="card shadow-sm border-light rounded-3">
+                <div class="card-header bg-light text-dark fw-bold">
+                    <h5 class="mb-0" style="color: #003366; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);">Personal Information</h5>
+                </div>
+                <div class="card-body row">
+                    <div class="col-md-6 mb-3"><strong>Name:</strong> <span class="text-muted">{{ student.stud_name }}</span></div>
+                    <div class="col-md-6 mb-3"><strong>Date of Birth:</strong> <span class="text-muted">{{ student.dob }}</span></div>
+                    <div class="col-md-6 mb-3"><strong>Aadhaar Number:</strong> <span class="text-muted">{{ student.aadhaar }}</span></div>
+                    <div class="col-md-6 mb-3"><strong>ABC ID:</strong> <span class="text-muted">{{ student.abc_id }}</span></div>
+                    <div class="col-md-6 mb-3"><strong>Gender:</strong> <span class="text-muted">{{ student.gender }}</span></div>
+                    <div class="col-md-6 mb-3"><strong>Blood Group:</strong> <span class="text-muted">{{ student.blood_group }}</span></div>
+                    <div class="col-md-6 mb-3"><strong>Language:</strong> <span class="text-muted">{{ student.language }}</span></div>
+                    <div class="col-md-12 mb-3"><strong>Identification Mark:</strong> <span class="text-muted">{{ student.identification_mark }}</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admission Details -->
+        <div class="col-12">
+            <div class="card shadow-sm border-light rounded-3">
+                <div class="card-header bg-light text-dark fw-bold">
+                    <h5 class="mb-0" style="color: #003366; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);">Admission Details</h5>
+                </div>
+                <div class="card-body row">
+                    <div class="col-md-6 mb-3"><strong>Admission No:</strong> <span class="text-muted">{{ student.stud_adm_no }}</span></div>
+                    <div class="col-md-6 mb-3"><strong>Registration No:</strong> <span class="text-muted">{{ student.stud_reg_no }}</span></div>
+                    <div class="col-md-6 mb-3"><strong>Roll No:</strong> <span class="text-muted">{{ student.stud_roll_no }}</span></div>
+                    <div class="col-md-6 mb-3"><strong>Date of Joining:</strong> <span class="text-muted">{{ student.date_of_joining }}</span></div>
+                    <div class="col-md-6 mb-3"><strong>Program:</strong> <span class="text-muted">{{ student.program }}</span></div>
+                    <div class="col-md-6 mb-3"><strong>Year of Admission:</strong> <span class="text-muted">{{ student.year_of_admission }}</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="col-12">
+            <div class="card shadow-sm border-light rounded-3">
+                <div class="card-header bg-light text-dark fw-bold">
+                    <h5 class="mb-0" style="color: #003366; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);">Contact Information</h5>
+                </div>
+                <div class="card-body row">
+                    <div class="col-md-6 mb-3"><strong>Email:</strong> <span class="text-muted">{{ student.email }}</span></div>
+                    <div class="col-md-6 mb-3"><strong>Phone:</strong> <span class="text-muted">{{ student.phone }}</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Parent Information -->
+        <div class="col-12">
+            <div class="card shadow-sm border-light rounded-3">
+                <div class="card-header bg-light text-dark fw-bold">
+                    <h5 class="mb-0" style="color: #003366; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);">Parent Information</h5>
+                </div>
+                <div class="card-body row">
+                    <div class="col-md-6 mb-3"><strong>Parent Name:</strong> <span class="text-muted">{{ student.parent_name }}</span></div>
+                    <div class="col-md-6 mb-3"><strong>Parent Mobile:</strong> <span class="text-muted">{{ student.parent_mob }}</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Address Details -->
+        <div class="col-12">
+            <div class="card shadow-sm border-light rounded-3">
+                <div class="card-header bg-light text-dark fw-bold">
+                    <h5 class="mb-0" style="color: #003366; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);">Address Details</h5>
+                </div>
+                <div class="card-body row">
+                    <div class="col-md-6 mb-3"><strong>House Name:</strong> <span class="text-muted">{{ student.house_name }}</span></div>
+                    <div class="col-md-6 mb-3"><strong>Post:</strong> <span class="text-muted">{{ student.post }}</span></div>
+                    <div class="col-md-6 mb-3"><strong>District:</strong> <span class="text-muted">{{ student.district }}</span></div>
+                    <div class="col-md-6 mb-3"><strong>State:</strong> <span class="text-muted">{{ student.state }}</span></div>
+                    <div class="col-md-6 mb-3"><strong>Pincode:</strong> <span class="text-muted">{{ student.pincode }}</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Caste & Quota Details -->
+        <div class="col-12">
+            <div class="card shadow-sm border-light rounded-3">
+                <div class="card-header bg-light text-dark fw-bold">
+                    <h5 class="mb-0" style="color: #003366; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);">Caste & Quota Details</h5>
+                </div>
+                <div class="card-body row">
+                    <div class="col-md-6 mb-3"><strong>Religion:</strong> <span class="text-muted">{{ student.religion }}</span></div>
+                    <div class="col-md-6 mb-3"><strong>Caste:</strong> <span class="text-muted">{{ student.caste }}</span></div>
+                    <div class="col-md-6 mb-3"><strong>Quota:</strong> <span class="text-muted">{{ student.quota }}</span></div>
+                    <div class="col-md-6 mb-3"><strong>Category:</strong> <span class="text-muted">{{ student.category }}</span></div>
+                    <div class="col-md-6 mb-3"><strong>Board:</strong> <span class="text-muted">{{ student.board }}</span></div>
+                    <div class="col-md-6 mb-3"><strong>Normalized Mark:</strong> <span class="text-muted">{{ student.normalized_mark }}</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Financial Details -->
+        <div class="col-12">
+            <div class="card shadow-sm border-light rounded-3">
+                <div class="card-header bg-light text-dark fw-bold">
+                    <h5 class="mb-0" style="color: #003366; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);">Financial Details</h5>
+                </div>
+                <div class="card-body row">
+                    <div class="col-md-6 mb-3"><strong>Income:</strong> <span class="text-muted">{{ student.income }}</span></div>
+                    <div class="col-md-6 mb-3"><strong>E-Grantz:</strong> <span class="text-muted">{{ student.egrantz }}</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

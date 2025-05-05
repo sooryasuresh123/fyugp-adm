@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Manage Qualified Marks</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Student</th>
+                <th>Board</th>
+                <th>Normalized Marks</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for qmark in qualified_marks %}
+            <tr>
+                <td>{{ qmark.stud.stud_name }}</td>
+                <td>{{ qmark.board.board_name }}</td>
+                <td>{{ qmark.normalized_marks }}</td>
+                <td>
+                    <a href="{% url 'edit_qualified_mark' qmark.stud.id %}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{% url 'delete_qualified_mark' qmark.stud.id %}" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'add_qualified_mark' %}" class="btn btn-primary">Add Qualified Mark</a>
+</div>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: #F9F9F9;
+    }
+    .card {
+        transition: 0.3s;
+    }
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="text-center">
+                <h2 class="fw-bold" style="color: #333; font-style: bold"> Admission Management System</h2>
+                {% comment %} <p class="text-muted">Effortlessly manage departments, programs, and students.</p> {% endcomment %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <!-- Manage Students -->
+        <div class="col-md-6 col-lg-4 mb-3">
+            <div class="card shadow-sm border-0 rounded">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-primary">Manage Students</h5>
+                    <p class="card-text text-muted">Add, update, or view student records easily.</p>
+                    <a href="{% url 'manage_student' %}" class="btn btn-primary">Go to Students</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Manage Departments -->
+        <div class="col-md-6 col-lg-4 mb-3">
+            <div class="card shadow-sm border-0 rounded">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-success">Manage Departments</h5>
+                    <p class="card-text text-muted">Organize and structure department information.</p>
+                    <a href="{% url 'manage_department' %}" class="btn btn-success">Go to Departments</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Manage Programs -->
+        <div class="col-md-6 col-lg-4 mb-3">
+            <div class="card shadow-sm border-0 rounded">
+                <div class="card-body text-center">
+                    <h5 class="card-title"style="color: #d4a017;">Manage Programs</h5>
+                    <p class="card-text text-muted">Handle course programs effectively.</p>
+                    <a href="{% url 'manage_program' %}" class="btn"style="background-color: #d4a017; color: white;">Go to Programs</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Manage Scholarships -->
+        <div class="col-md-6 col-lg-4 mb-3">
+            <div class="card shadow-sm border-0 rounded">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-danger">Manage Scholarships</h5>
+                    <p class="card-text text-muted">Review and assign scholarship opportunities.</p>
+                    <a href="{% url 'manage_scholarships' %}" class="btn btn-danger">Go to Scholarships</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Manage TC -->
+        <div class="col-md-6 col-lg-4 mb-3">
+            <div class="card shadow-sm border-0 rounded">
+                <div class="card-body text-center">
+                    <h5 class="card-title"style="color: #6a0dad;">Manage TC</h5>
+                    <p class="card-text text-muted">Transfer Certificate.</p>
+                    <a href="{% url 'manage_tc' %}" class="btn" style="background-color: #6a0dad; color: white;">Go to TC</a>
+                </div>
+            </div>
+        </div>
+
+    
+         <div class="col-md-6 col-lg-4 mb-3">
+            <div class="card shadow-sm border-0 rounded">
+                <div class="card-body text-center">
+                    <h5 class="card-title" style="color: #008B8B;">Manage Documents</h5>  <!-- Dark orange color -->
+                    <p class="card-text text-muted">Manage documents, upload, and view them..</p>
+                    <a href="{% url 'manage_documents' %}" class="btn" style="background-color: #008B8B; color: white;">Go to Documents</a>
+                </div>
+            </div>
+        </div> 
+    </div>
+</div>
+{% endblock %}

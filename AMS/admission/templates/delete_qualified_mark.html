@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Delete Qualified Mark</h2>
+    <p>Are you sure you want to delete the qualified mark for <strong>{{ qualified_mark.stud.name }}</strong> from <strong>{{ qualified_mark.board.board_name }}</strong>?</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Yes, Delete</button>
+        <a href="{% url 'manage_qualified_marks' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

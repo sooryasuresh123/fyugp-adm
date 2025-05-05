@@ -1,0 +1,172 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Course & Conduct Certificate</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 0;
+        }
+        
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Times New Roman', serif;
+            background-color: #f5f5f5;
+        }
+        
+        .certificate-container {
+            position: relative;
+            width: 210mm;  /* A4 width */
+            height: 297mm; /* A4 height */
+            box-sizing: border-box;
+            padding: 25mm 20mm;  /* Standard A4 margins */
+            border: 2px solid black;
+            margin: 0 auto;
+            background-color: white;
+        }
+        
+        .certificate-container::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: 300px;
+            background-image: url("{% static 'admission/images/emblem.png' %}");
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+            transform: translate(-50%, -50%);
+            opacity: 0.08;
+            filter: blur(1px);
+            z-index: 0;
+        }
+        
+        .header-img, .footer-img, .print-btn, .certificate-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .header-img {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .footer-img {
+            text-align: center;
+            position: relative;
+            margin-top: 30px;
+        }
+        
+        /* Further increased image sizes */
+        .header-img img {
+            width: 100%;
+            max-width: 650px; /* Increased size */
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .footer-img img {
+            width: 100%;
+            max-width: 600px; /* Increased size */
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .tc-header {
+            text-align: center;
+            font-weight: bold;
+            font-size: 22px;
+            margin: 30px 0;
+            text-decoration: underline;
+        }
+        
+        .certificate-content {
+            font-size: 18px;
+            line-height: 1.8;
+            text-align: justify;
+            min-height: 40%;
+        }
+        
+        .signature-section {
+            margin-top: 80px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        
+        .print-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        @media print {
+            .print-btn {
+                display: none;
+            }
+            
+            html, body {
+                width: 100%;
+                height: 100%;
+                background-color: white;
+                display: block;
+            }
+            
+            .certificate-container {
+                border: none;
+                padding: 20mm;
+                height: 257mm;  /* 297mm - 40mm for top and bottom margins */
+                margin: 0 auto;
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="certificate-container">
+        <div class="header-img">
+            <img src="{% static 'admission/images/TCHead3.png' %}" alt="Header Image">
+        </div>
+        
+        <div class="tc-header">
+            COURSE & CONDUCT CERTIFICATE
+        </div>
+        
+        <div class="certificate-content">
+            This is to certify that <strong>Mr./Ms. {{ cc.student.stud_name }}</strong>, Date of Birth <strong>{{ cc.student.dob|date:"d.m.Y" }}</strong>, was a student of the <strong>{{ cc.student.program.program_name }}</strong> programme with Admission Number <strong>{{ cc.admission_no }}</strong> of this College.<br><br>
+            His/Her general conduct is ........................................
+        </div>
+        
+        <div class="signature-section">
+            <div>Date: {{ cc.date_of_issue|date:"d.m.Y" }}</div>
+            <div style="margin-right: 40px;"><strong>Principal</strong></div>
+        </div>
+        
+        <div class="footer-img">
+            <img src="{% static 'admission/images/TCFoot.png' %}" alt="Footer Image">
+        </div>
+    </div>
+    
+    <button class="print-btn" onclick="window.print()">🖨️ Print Certificate</button>
+</body>
+</html>

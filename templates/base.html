@@ -4,20 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}Admission Management{% endblock %}</title>
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 
-    <!-- Custom CSS -->
     <style>
-        /* Global Styling */
         body {
             font-family: 'Poppins', sans-serif;
             background: #f4f4f4;
@@ -26,10 +19,9 @@
             flex-direction: column;
         }
 
-        /* Navbar */
         .navbar {
             background: #000 !important;
-            padding: 10px 0;
+            padding: 10px 10px; /* Reduced padding */
             position: relative;
             width: 100%;
             z-index: 1000;
@@ -39,20 +31,36 @@
             font-weight: 600;
             font-size: 22px;
             color: #fff;
+            margin-left: 0; /* Align brand to left */
         }
 
-        /* Sidebar Styling */
         .sidebar {
             width: 60px;
-            height: 100vh;
+            height: calc(100vh - 56px); /* Below navbar */
             position: fixed;
             left: 0;
             top: 56px;
             background: #0a1931;
-            padding: 10px 0;
+            padding-top: 10px;
+            overflow-y: auto;
             overflow-x: hidden;
             transition: width 0.3s ease-in-out;
             white-space: nowrap;
+            scrollbar-width: thin;
+            scrollbar-color: #888 #0a1931;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: #0a1931;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background-color: #888;
+            border-radius: 3px;
         }
 
         .sidebar:hover {
@@ -93,74 +101,70 @@
             opacity: 1;
         }
 
-        .sidebar .nav-link:hover {
+        .sidebar .nav-link:hover,
+        .sidebar .nav-item:hover {
             background: #1b3a68;
             color: #ffdd57;
         }
 
-        /* Content */
         .content {
-            margin-left: 70px;
+            margin-left: 60px; /* Aligned with sidebar width */
             padding: 20px;
             transition: margin-left 0.3s ease-in-out;
         }
 
-        .sidebar .nav-item:hover {
-            background: #1b3a68;  /* Highlight spans full sidebar */
-        }
         .sidebar:hover + .content {
-            margin-left: 260px;
+            margin-left: 250px;
         }
     </style>
 </head>
 <body>
 
-    
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background: #000; padding: 10px 20px;">
-        
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">Admission Portal</a>
+            <a class="navbar-brand ms-0" href="/">Admission Portal</a>
         </div>
     </nav>
+
     {% if messages %}
     <div class="container mt-3">
         {% for message in messages %}
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ message }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
         {% endfor %}
     </div>
-{% endif %}
-<div class="sidebar">
-    <ul class="nav flex-column">
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'index' %}">
-                <i class="bi bi-house-door-fill"></i> <span class="nav-text">Home</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/students">
-                <i class="bi bi-search"></i> <span class="nav-text">Search</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">
-                <i class="bi bi-filter-circle"></i> <span class="nav-text">Advanced Search</span>
-            </a>
-        </li>
-        
-        <li class="nav-item">
-            <a class="nav-link" href="/manage_students">
-                <i class="bi bi-person-fill"></i> <span class="nav-text">Students</span>
-            </a>
-        </li>
+    {% endif %}
 
-        {% if is_superuser %}
-            <!-- Only Superuser can see Department and Program -->
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'index' %}">
+                    <i class="bi bi-house-door-fill"></i> <span class="nav-text">Home</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/students">
+                    <i class="bi bi-search"></i> <span class="nav-text">Search</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'advanced_filter_students' %}">
+                    <i class="bi bi-filter-circle"></i> <span class="nav-text">Advanced Search</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/manage_students">
+                    <i class="bi bi-person-fill"></i> <span class="nav-text">Students</span>
+                </a>
+            </li>
+
+            {% if is_superuser %}
             <li class="nav-item">
                 <a class="nav-link" href="/manage_department">
                     <i class="bi bi-building-fill"></i> <span class="nav-text">Departments</span>
@@ -171,10 +175,9 @@
                     <i class="bi bi-book-half"></i> <span class="nav-text">Programmes</span>
                 </a>
             </li>
-        {% endif %}
+            {% endif %}
 
-        {% if is_superuser or is_office %}
-            <!-- Both Superuser and Office can see Scholarships, Documents, TC, CC -->
+            {% if is_superuser or is_office %}
             <li class="nav-item">
                 <a class="nav-link" href="/manage_scholarships">
                     <i class="bi bi-cash-stack"></i> <span class="nav-text">Scholarships</span>
@@ -195,34 +198,32 @@
                     <i class="bi bi-file-text-fill"></i> <span class="nav-text">Conduct Certificate</span>
                 </a>
             </li>
-        {% endif %}
+            {% endif %}
 
-        {% if is_hod %}
-            <!-- HOD can see only limited sidebar (no Department, no Program, no TC, no CC, no Scholarships) -->
+            {% if is_hod %}
             <li class="nav-item">
                 <a class="nav-link" href="/manage_documents">
                     <i class="bi bi-file-earmark-text-fill"></i> <span class="nav-text">Documents</span>
                 </a>
             </li>
-        {% endif %}
+            {% endif %}
 
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'change_credentials' %}">
-                <i class="bi bi-key-fill"></i> <span class="nav-text">Change Credentials</span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <form method="post" action="{% url 'logout' %}">
-                {% csrf_token %}
-                <a class="nav-link" href="{% url 'logout' %}">
-                    <i class="bi bi-box-arrow-right"></i> <span class="nav-text">🚪 Logout</span>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'change_credentials' %}">
+                    <i class="bi bi-key-fill"></i> <span class="nav-text">Change Credentials</span>
                 </a>
-            </form>
-        </li>
-    </ul>
-</div>
+            </li>
 
+            <li class="nav-item">
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <a class="nav-link" href="{% url 'logout' %}">
+                        <i class="bi bi-box-arrow-right"></i> <span class="nav-text">🚪 Logout</span>
+                    </a>
+                </form>
+            </li>
+        </ul>
+    </div>
 
     <!-- Main Content -->
     <div class="content d-flex flex-column">
@@ -239,7 +240,6 @@
         </div>
     </footer>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

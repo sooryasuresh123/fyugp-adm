@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if form.instance.pk %}Edit{% else %}Upload{% endif %} Document
+{% endblock %}
+
+{% block content %}
+<style>
+    .form-label {
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+        color: #333;
+    }
+
+    .form-control, .form-select {
+        border-radius: 10px;
+        padding: 0.75rem;
+        font-size: 1rem;
+        background-color: #fefefe;
+        border: 1px solid #ccc;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: #0069d9;
+        box-shadow: 0 0 5px rgba(0, 105, 217, 0.3);
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border-radius: 25px;
+        padding: 0.5rem 1.5rem;
+        font-weight: 600;
+    }
+
+    .btn-secondary {
+        border-radius: 25px;
+        padding: 0.5rem 1.5rem;
+        font-weight: 600;
+    }
+
+    .card {
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        background-color: #fff;
+    }
+
+    .card-body {
+        padding: 3rem;
+    }
+
+    .container {
+        max-width: 700px;
+        margin-top: 3rem;
+    }
+
+    .heading {
+        font-size: 2rem;
+        font-weight: bold;
+        text-align: center;
+        color: #1e3a5f;
+        margin-bottom: 2rem;
+    }
+</style>
+
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="heading">{% if form.instance.pk %}Edit{% else %}Upload{% endif %} Document</h2>
+
+            <form method="post" enctype="multipart/form-data" novalidate>
+                {% csrf_token %}
+
+                <!-- Student -->
+                <div class="form-group mb-4">
+                    <label for="{{ form.student.id_for_label }}" class="form-label">{{ form.student.label }}</label>
+                    {{ form.student }}
+                    {% if form.student.errors %}
+                        <div class="text-danger mt-1">{{ form.student.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Document Name -->
+                <div class="form-group mb-4">
+                    <label for="{{ form.document_name.id_for_label }}" class="form-label">{{ form.document_name.label }}</label>
+                    {{ form.document_name }}
+                    {% if form.document_name.errors %}
+                        <div class="text-danger mt-1">{{ form.document_name.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Document File -->
+                <div class="form-group mb-4">
+                    <label for="{{ form.document_file.id_for_label }}" class="form-label">{{ form.document_file.label }}</label>
+                    {{ form.document_file }}
+                    {% if form.document_file.errors %}
+                        <div class="text-danger mt-1">{{ form.document_file.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-success">Save</button>
+                    <a href="{% url 'manage_documents' %}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

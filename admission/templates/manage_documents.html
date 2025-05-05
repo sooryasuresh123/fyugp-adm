@@ -92,15 +92,20 @@
 <div class="container">
     <div class="table-header d-flex flex-column align-items-center">
         <h2 class="mb-4">Manage Documents</h2>
-        <form method="get" class="d-flex align-items-center gap-2 mb-3">
-            <input type="text" name="adm_no" class="form-control" style="max-width: 250px;" placeholder="Enter Admission No" value="{{ adm_no }}">
-            <button type="submit" class="btn btn-primary">Search</button>
-        </form>
         
-        <div class="w-100 d-flex justify-content-end mb-3">
+        <!-- Flex container for form and button on the same line -->
+        <div class="d-flex justify-content-between align-items-center w-100">
+            <form method="get" class="d-flex align-items-center gap-2 w-75">
+                <input type="text" name="adm_no" class="form-control" style="max-width: 250px;" placeholder="Enter Admission No" value="{{ adm_no }}">
+                <button type="submit" class="btn btn-primary">Search</button>
+                <a href="{% url 'manage_documents' %}" class="btn btn-secondary">Reset</a>
+            </form>
+    
+            <!-- Upload New Document Button -->
             <a href="{% url 'upload_document' %}" class="add-button">+ Upload New Document</a>
         </div>
     </div>
+    
 
     <table class="table table-striped">
         <thead class="table-dark">

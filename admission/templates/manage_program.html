@@ -91,9 +91,9 @@
 
 <div class="container">
     <div class="table-header d-flex flex-column align-items-center">
-        <h2 class="mb-4">Manage Program</h2>
+        <h2 class="mb-4">Manage Programmes</h2>
         <div class="w-100 d-flex justify-content-end mb-3">
-            <a href="{% url 'add_program' %}" class="add-button">+ Add Program</a>
+            <a href="{% url 'add_program' %}" class="add-button">+ Add Programme</a>
         </div>
     </div>
 
@@ -101,8 +101,8 @@
         <thead class="table-dark">
             <tr>
                 <th>Sl No</th>
-                <th>Program Name</th>
-                <th>Program Level</th>
+                <th>Programme Name</th>
+                <th>Programme Level</th>
                 <th>Department</th>
                 <th>Actions</th>
             </tr>
@@ -121,7 +121,7 @@
             </tr>
             {% empty %}
             <tr>
-                <td colspan="5" class="text-center">No programs available.</td>
+                <td colspan="5" class="text-center">No programmes available.</td>
             </tr>
             {% endfor %}
         </tbody>

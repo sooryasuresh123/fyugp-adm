@@ -61,6 +61,17 @@
         transform: translateY(-2px);
     }
 
+    .btn-secondary {
+        background-color: #e74c3c;
+        border-color: #c0392b;
+        color: white;
+    }
+
+    .btn-secondary:hover {
+        background-color: #c0392b;
+        border-color: #e74c3c;
+    }
+
     .table {
         background-color: #fff;
         border-radius: 12px;
@@ -111,18 +122,12 @@
     }
 
     .filter-form button {
-        background-color: #2ecc71;
-        border-color: #27ae60;
         font-weight: 600;
         border-radius: 25px;
         transition: background-color 0.3s ease;
         color: white;
     }
 
-    .filter-form button:hover {
-        background-color: #27ae60;
-        border-color: #2ecc71;
-    }
 </style>
 
 <div class="container">
@@ -131,7 +136,7 @@
     <!-- Filter Form -->
     <form method="GET" class="filter-form row g-3">
         <div class="col-md-4">
-            <label class="form-label">Program</label>
+            <label class="form-label">Programme</label>
             <select name="program" class="form-control">
                 <option value="">Search By</option>
                 {% for program in programs %}
@@ -168,19 +173,21 @@
             </select>
         </div>
 
+        <!-- Submit & Reset Buttons -->
         <div class="col-12 text-center mt-3">
             <button type="submit" class="btn btn-primary">Search</button>
+            <a href="{% url 'student_list' %}" class="btn btn-secondary ms-2">Reset</a>
         </div>
     </form>
 
     <!-- Student Table -->
-    <table class="table table-striped">
+    <table class="table table-striped mt-4">
         <thead>
             <tr>
                 <th><a href="?sort_by=stud_adm_no">Admission No</a></th>
                 <th><a href="?sort_by=stud_name">Name</a></th>
                 <th><a href="?sort_by=year_of_admission">Year</a></th>
-                <th><a href="?sort_by=program">Program</a></th>
+                <th><a href="?sort_by=program">Programme</a></th>
                 <th>Actions</th>
             </tr>
         </thead>

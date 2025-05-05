@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f9f9f9;
+    }
+
+    .container {
+        margin-top: 40px;
+        max-width: 90%;
+    }
+
+    .table-header h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin: 0;
+        text-align: center;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+        letter-spacing: 1px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin-bottom: 30px;
+    }
+
+    .add-button {
+        padding: 10px 20px;
+        font-weight: 600;
+        border-radius: 25px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .add-button:hover {
+        background-color: #0056b3;
+        text-decoration: none;
+    }
+
+    .table {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    .table th {
+        background-color: #343a40;
+        color: white;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .table td {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .btn {
+        border-radius: 20px;
+        font-weight: 600;
+    }
+
+    .btn-warning {
+        background-color: #ffc107;
+        border: none;
+    }
+
+    .btn-warning:hover {
+        background-color: #e0a800;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border: none;
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333;
+    }
+
+    .table-header .add-button {
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="container">
+    <div class="table-header d-flex flex-column align-items-center">
+        <h2 class="mb-4">Student Scholarships</h2>
+        <form method="get" class="d-flex align-items-center gap-2 mb-3">
+            <input type="text" name="adm_no" class="form-control" style="max-width: 250px;" placeholder="Enter Admission No" value="{{ adm_no }}">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+        
+        
+        <div class="w-100 d-flex justify-content-end mb-3">
+            <a href="{% url 'add_student_scholarship' %}" class="add-button">+ Add Student Scholarship</a>
+        </div>
+    </div>
+
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Sl no</th>
+                <th>Adm_no</th>
+                <th>Name</th>
+                <th>Scholarship Name</th>
+                <th>Amount</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student_scholarship in student_scholarships %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ student_scholarship.student.stud_adm_no}}</td>
+                <td>{{ student_scholarship.student.stud_name}}</td>
+                <td>{{ student_scholarship.scholarship.name }}</td>
+                <td>{{ student_scholarship.amount }}</td>
+                <td>
+                    <a href="{% url 'edit_student_scholarship' student_scholarship.id %}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{% url 'delete_student_scholarship' student_scholarship.id %}" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center">No student scholarships available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

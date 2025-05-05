@@ -18,7 +18,7 @@ class ProgramForm(forms.ModelForm):
         program_level= forms.ModelChoiceField(queryset=ProgramLevel.objects.all(), required=False)
         department= forms.ModelChoiceField(queryset=Department.objects.all(), required=False)
         widgets = {
-            'program_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter program name'}),
+            'program_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter programme name'}),
 
         }
 
@@ -242,6 +242,39 @@ class CourseCertificateForm(forms.ModelForm):
             self.fields['date_of_issue'].initial = now().strftime("%d-%m-%Y")
             self.fields['date_of_issue'].widget.attrs['readonly'] = True
 
+from django import forms
+from .models import Student, Program, Caste, Religion, Pathway, Quota, Board
+
+class StudentAdvancedFilterForm(forms.Form):
+    program = forms.ModelChoiceField(queryset=Program.objects.all(), required=False,label="Programme")
+    stud_adm_no = forms.CharField(required=False, label="Admission No")
+    year_of_admission = forms.IntegerField(required=False)
+    
+    tc = forms.ChoiceField(
+        choices=[('', '------'), ('include', 'Include'), ('exclude', 'Exclude')],
+        required=False
+    )
+    
+    egrantz = forms.ChoiceField(
+        choices=[('', '------'), ('include', 'Include'), ('exclude', 'Exclude')],
+        required=False
+    )
+
+    caste = forms.ModelChoiceField(queryset=Caste.objects.all(), required=False)
+    religion = forms.ModelChoiceField(queryset=Religion.objects.all(), required=False)
+    pathway = forms.ModelChoiceField(queryset=Pathway.objects.all(), required=False)
+    quota = forms.ModelChoiceField(queryset=Quota.objects.all(), required=False)
+    board = forms.ModelChoiceField(queryset=Board.objects.all(), required=False)
+    
+    gender = forms.ChoiceField(
+        choices=[('', '------')] + list(Student._meta.get_field('gender').choices),
+        required=False
+    )
+    
+    language = forms.ChoiceField(
+        choices=[('', '------')] + list(Student._meta.get_field('language').choices),
+        required=False
+    )
     
 
 
